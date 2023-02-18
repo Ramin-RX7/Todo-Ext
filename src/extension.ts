@@ -1,14 +1,42 @@
+import assert = require('assert');
 import * as vscode from 'vscode';
+
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
 
     console.log('"RX-Todo" extension is activated');
+    let config = vscode.workspace.getConfiguration("todo-ext")
 
-    let timeout: NodeJS.Timer | undefined = undefined;
+    let timeout: NodeJS.Timer|undefined = undefined;
+
+    const BUILTIN_TAGS_MAP = {
+        "low"       :   {backgroundColor:"#EEE"   ,color:"#000"},
+        "med"       :   {backgroundColor:"#E6DD4E",color:"#000"},
+        "high"      :   {backgroundColor:"#C00000",},
+        "critical"  :   {backgroundColor:"#800000",},
+        "normal_tag":   {backgroundColor:"#3355ff",}
+    }
+    const BUILTIN_TAGS_LIST = Object.keys(BUILTIN_TAGS_MAP) //["low","med","high"];
+    const TAGS = [...BUILTIN_TAGS_LIST];  // later I should add custom tags defined in configs to this
 
 
     // create a decorator type that we use to decorate small numbers
+    const DECORATIONS = {}
+    TAGS.forEach(tag => {
+        if (config[tag] != null){var conf = config[tag]}
+        else                    {var conf = BUILTIN_TAGS_MAP[tag]}
+        DECORATIONS[tag] = (
+            vscode.window.createTextEditorDecorationType({
+                dark: {
+                    ...conf
+                },
+            })
+        )
+    });
+    console.log(DECORATIONS);
+
+
     const smallNumberDecorationType = vscode.window.createTextEditorDecorationType({
         borderWidth: '1px',
         borderStyle: 'solid',
@@ -22,21 +50,15 @@ export function activate(context: vscode.ExtensionContext) {
             // this color will be used in dark color themes
             borderColor: 'lightblue'
         },
-        
+
     });
 
-    // create a decorator type that we use to decorate large numbers
-    const largeNumberDecorationType = vscode.window.createTextEditorDecorationType({
-        cursor: 'crosshair',
-        // use a themable color. See package.json for the declaration and default values.
-        backgroundColor: { id: 'myextension.largeNumberBackground' }
-    });
 
 
     let activeEditor = vscode.window.activeTextEditor;
 
 
-    function updateDecorations2(){
+    function updateDecorations(){
         if (!activeEditor || activeEditor.document.languageId!=="todo") {
             return;
         }
@@ -47,17 +69,17 @@ export function activate(context: vscode.ExtensionContext) {
 
         const allTagsList: vscode.DecorationOptions[] = [];
 
-        const TAGS = ["easy","med","high"]
-        const tagsList = {};
+        const tagsList: {[key:string]:any[]} = {};
         TAGS.forEach(element => {
             tagsList[element] = [];
         });
         tagsList.normal_tag = []
-        console.log(tagsList);
+        // console.log(tagsList);
 
         let match;
         while ((match = regEx.exec(text))) {
             // console.log(match.groups.TAGNAME);
+            assert(match.groups);
             var tag = match.groups.TAG
             var tagname = match.groups.TAGNAME
 
@@ -70,15 +92,28 @@ export function activate(context: vscode.ExtensionContext) {
             // console.log(decoration);
             if (TAGS.includes(tagname)){
                 tagsList[tagname].push(decoration)
+
             } else {
                 tagsList["normal_tag"].push(decoration)
             }
 
         }
+
         // console.log(tagsList);
 
-        activeEditor.setDecorations(smallNumberDecorationType, allTagsList);
+        // activeEditor.setDecorations(smallNumberDecorationType, tagsList['low'])
+        // /*
+        Object.keys(DECORATIONS).forEach(tag => {
+                                     // decoration       list of found regexes
+            activeEditor.setDecorations(DECORATIONS[tag], tagsList[tag]);
+            // console.log(DECORATIONS[tag]);
+            // console.log(tagsList[tag])
+
+        });
+        // */
     }
+
+
 
     function triggerUpdateDecorations(throttle = false) {
         if (timeout) {
@@ -86,9 +121,9 @@ export function activate(context: vscode.ExtensionContext) {
             timeout = undefined;
         }
         if (throttle) {
-            timeout = setTimeout(updateDecorations2, 500);
+            timeout = setTimeout(updateDecorations, 500);
         } else {
-            updateDecorations2();
+            updateDecorations();
         }
     }
 

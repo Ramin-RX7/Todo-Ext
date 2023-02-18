@@ -24,7 +24,7 @@
         "extensions": [
           ".todo",
           ".tasks",
-          ".bang"
+          ".todotest"
         ],
         "configuration": "./language-configuration.json"
       }
