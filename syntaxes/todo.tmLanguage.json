@@ -1,0 +1,81 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Todo",
+    "scopeName": "source.todo",
+    "patterns": [
+        {"include": "#strings"},
+        {"include": "#comment"},
+        {"include": "#tag"},
+        {"include": "#project"}
+    ],
+    "repository": {
+        "strings" : {
+            "patterns": [
+                {"include": "#string-single"},
+                {"include": "#string-double"},
+                {"include": "#string-weird"}
+            ]
+        },
+        "string-single": {
+            "name": "string.quoted.string.todo",
+            "begin": "`",
+            "end": "`|\n"
+        },
+        "string-double": {
+            "name": "string.quoted.string.todo",
+            "begin": "\"",
+            "end": "\"|\n"
+        },
+        "string-weird": {
+            "name": "string.quoted.string.todo",
+            "begin": "'",
+            "end": "'|\n"
+        },
+        
+
+
+        "comment": {
+            "captures": {
+                "1": {
+                    "name": "comment.line.number-sign.todo"
+                }
+            },
+            "comment": "Comments",
+            "match": "\\s*((//).*)$"
+        },
+
+        "tag":{
+            "name": "variable.legacy.todotag",
+            "begin":"@",
+            "end": " |\\n",
+            "patterns": [
+                {
+                    "name":"invalid.illegal.operator.todo",
+                    "match": "critical"
+                },
+                {
+                    "name":"entity.name.function.todo",
+                    "match": "low"
+                },
+                {
+                    "name":"variable.other.constant.todo",
+                    "match": "med "
+                },
+                {
+                    "name": "keyword.control.import.todo",
+                    "match": "high"
+                }
+            ]
+        },
+
+        "project":{
+            "name": "support.type.project.todo",
+            "match": "^(\\s*)(.+):(\\s*)?$"
+        }
+
+
+
+
+
+    }
+}

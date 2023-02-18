@@ -1,0 +1,65 @@
+{
+  "name": "rx-todo",
+  "displayName": "RX-TODO",
+  "description": "VS-Code extension for my TODO listss",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "todo",
+        "aliases": [
+          "Todo",
+          "todo"
+        ],
+        "extensions": [
+          ".todo",
+          ".tasks",
+          ".bang"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "todo",
+        "scopeName": "source.todo",
+        "path": "./syntaxes/todo.tmLanguage.json"
+      }
+    ],
+    "colors": [
+			{
+				"id": "myextension.largeNumberBackground",
+				"description": "Background decoration color for large numbers",
+				"defaults": {
+					"dark": "#FF000055",
+					"light": "#FF000055",
+					"highContrast": "#FF000055"
+				}
+			}
+		]
+  },
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint \"src/**/*.ts\"",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^16.11.7",
+		"@types/vscode": "^1.73.0",
+		"@typescript-eslint/eslint-plugin": "^5.42.0",
+		"@typescript-eslint/parser": "^5.42.0",
+		"eslint": "^8.26.0",
+		"typescript": "^4.9.4"
+	}
+}

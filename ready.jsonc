@@ -1,0 +1,11 @@
+// Every task line:
+// "task-state":{
+    // "name":"keyword.control.import.todo",
+    // "match": "(~|-|☐|x|X|✘|✔|\\^|\\+|\\?)(.*)",
+    // "captures": {
+        // "1": {"name":"variable.other.constant.todo"},
+        // "2": {"name": "keyword.control.import.todo", "patterns": [{"include": "#tag"}]}
+    // }
+// }
+
+
