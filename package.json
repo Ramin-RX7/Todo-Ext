@@ -15,36 +15,50 @@
 	"main": "./out/extension.js",
   "contributes": {
     "languages": [
-      {
-        "id": "todo",
-        "aliases": [
-          "Todo",
-          "todo"
-        ],
-        "extensions": [
-          ".todo",
-          ".tasks",
-          ".todotest"
-        ],
-        "configuration": "./language-configuration.json"
-      }
+        {
+          "id": "todo",
+          "aliases": [
+            "Todo",
+            "todo"
+          ],
+          "extensions": [
+            ".todo",
+            ".tasks",
+            ".todotest"
+          ],
+          "configuration": "./language-configuration.json"
+        }
     ],
     "grammars": [
-      {
-        "language": "todo",
-        "scopeName": "source.todo",
-        "path": "./syntaxes/todo.tmLanguage.json"
-      }
+        {
+          "language": "todo",
+          "scopeName": "source.todo",
+          "path": "./syntaxes/todo.tmLanguage.json"
+        }
     ],
     "colors": [
+		  	{
+		  		"id": "myextension.largeNumberBackground",
+		  		"description": "Background decoration color for large numbers",
+		  		"defaults": {
+		  			"dark": "#FF000055",
+		  			"light": "#FF000055",
+		  			"highContrast": "#FF000055"
+		  		}
+		  	}
+		],
+    "commands": [
+        {
+          "command": "Todo.toTask",
+          "title": "Make Task"
+        }
+    ],
+		"keybindings": [
 			{
-				"id": "myextension.largeNumberBackground",
-				"description": "Background decoration color for large numbers",
-				"defaults": {
-					"dark": "#FF000055",
-					"light": "#FF000055",
-					"highContrast": "#FF000055"
-				}
+				"command": "Todo.toTask",
+				"key": "Alt+Enter",
+				"mac": "Cmd+Enter",
+				"when": "editorTextFocus"
 			}
 		]
   },

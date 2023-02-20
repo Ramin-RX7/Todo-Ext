@@ -4,30 +4,20 @@ HASH:
     Hash Decryptor:
         ☐ @medium Threading
         ☐ @low @easy Save decrypted hashes in a file
-    
+
     Hash Generator:
         ☐ @low asdfadf @sdsaf asdf
-        ☐ @med ia sdfasf 
+        ☐ @med ia sdfasf
         ☐ @high  adsf
-        ☐ @critical asdf @dsaf `asdf`
-123 45
+        ✔ @critical asdff jas;d lk;asdfj
+
+
+
+@customTag asdf
+asdf
+@customTag asdf
+helhel
 
 456 465321 adf
 45 dd12 32 as
-# asdf `asdf` "fdaf" '
-asdf'
-hasdf       
-// asdf
-( 12a c fxbc)
-for
-while for return
-# asdf @med sdf
 
-DICTIONARY:
-
-    ☐ Dictionary Size checker (Memory, Time, File, nom of words)
-
-    Dictionary Creator:
-        ☐ @high Improve `SAVE_MEMORY` option to save up more memory
-        ? Is it possible to use threading?
-        ☐ @medium A way to choose some character collections like `LowerCases` or `Numbers`
