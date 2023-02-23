@@ -11,7 +11,7 @@ const BUILTIN_TAGS_MAP: {[key:string]:{[key:string]:string}} = {
     "med"       :   {backgroundColor:"#E6DD4E", color:"#000"},
     "high"      :   {backgroundColor:"#C00000", overviewRulerColor:"#C00000"},
     "critical"  :   {backgroundColor:"#800000", overviewRulerColor:"#800000"},
-    "normal_tag":   {backgroundColor:"#3355ff",}
+    "normal_tag":   {backgroundColor:"#3355ff"}
 }
 const BUILTIN_TAGS_LIST = Object.keys(BUILTIN_TAGS_MAP)
 const USER_TAGS_MAP: {[key:string]:{[key:string]:string}} = {...config.tags}
@@ -60,17 +60,27 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
     // console.log(tagsList);
 
     //> Searching the document with regex for tags
-    var regEx = /(?<TAG>@(?<TAGNAME>[^( |\n)]+))/g;
+    var regEx = /(?<TAG>@(?<TAGNAME>[^(\r| |\n)]+))/g;
     let match;
     while ((match = regEx.exec(text))) {
         assert(match.groups);
         var tag = match.groups.TAG
         var tagname = match.groups.TAGNAME
 
+        var hovermsg;
+        if (BUILTIN_TAGS_LIST.includes(tag.slice(1))){
+            hovermsg="Built-in tag:"
+        } else if (USER_TAGS_LIST.includes(tag.slice(1))){
+            hovermsg="User-defined tag:"
+        } else {
+            hovermsg="Local-Project tag:"
+        }
+        hovermsg = new vscode.MarkdownString(hovermsg+" **_"+tag+"_**")
         const startPos = activeEditor.document.positionAt(match.index);
         const endPos = activeEditor.document.positionAt(match.index + tag.length);
-        const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + tag + '**' };
-
+        const decoration = { range: new vscode.Range(startPos, endPos),
+                             hoverMessage:  hovermsg
+                            };
         // allTagsList.push(decoration);
         if (TAGS.includes(tagname)){
             tagsList[tagname].push(decoration)
@@ -81,7 +91,7 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
     // console.log(tagsList);
 
     Object.keys(DECORATIONS).forEach(tag => {
-                                 // decoration       list of found regexes
+                                //     decoration     list of found regexes
         activeEditor.setDecorations(DECORATIONS[tag], tagsList[tag]);
     });
 }

@@ -62,27 +62,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function convertTask(symbol){
     const editor = vscode.window.activeTextEditor;
 
