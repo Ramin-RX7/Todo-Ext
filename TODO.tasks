@@ -4,9 +4,11 @@ TAGS:
     ☐ @med @bug work alone
     ?  Difficulty tags? (easy/normal/hard)
 
+TASK-STATUS:
+    ☐ change opacity of `cancelled` and `done/completed` tasks
+
 COMPLETIONS:
     ☐ tags list after writing `@`
-    ☐
 
 MAIN:
     ☐ @low formatter

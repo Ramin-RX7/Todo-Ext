@@ -1,19 +1,23 @@
 {
   "name": "rx-todo",
-  "displayName": "RX-TODO",
-  "description": "VS-Code extension for my TODO listss",
+  "displayName": "VSCode-TODO-Manager",
+  "description": "VS-Code extension for todo listss",
   "version": "0.0.1",
+  "publisher": "RaminRX7",
+  "icon": "icon.png",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Ramin-RX7/vscode-todo"
+	},
+
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
     "Programming Languages"
   ],
-	"activationEvents": [
-		"*"
-	],
-	"main": "./out/extension.js",
 
+  "main": "./out/extension.js",
 
   "contributes": {
     "languages": [
