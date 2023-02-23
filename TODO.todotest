@@ -1,25 +1,10 @@
-HASH:
-    ☐ @high siphash,pymmh3 and other hashes
+TAGS:
+    ☐ @high @bug they work in strings
+    ☐ @med @feature key-bindings
+    ☐ @med @bug work alone
 
-    Hash Decryptor:
-        ☐ @medium Threading
-        ☐ @low @easy Save decrypted hashes in a file
+COMPLETIONS:
+    ☐ tags list after writing `@`
 
-    Hash Generator:
-        ☐ @low asdfadf @sdsaf asdf
-        ☐ @med ia sdfasf
-        ☐ @high  adsf
-        ✔ @critical asdff jas;d lk;asdfj
-
-
-
-@customTag asdf
-asdf
-@customTag asdf
-helhel
-Hello World!
-
-    ✘ 5asdf dd12 32 as
-
-
-
+☐ @high @normal_tag
+☐

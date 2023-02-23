@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import assert = require('assert');
 
 import {getConfigs} from './conf';
-
+import tags = require("./tags")
 
 var config = getConfigs()
 
@@ -17,7 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
     var  TAGS:string[], DECORATIONS:{[key:string]:any[]};
-    [TAGS,DECORATIONS] = prepareTags();
+    [TAGS,DECORATIONS] = tags.prepareTags();
 
 
 
@@ -28,27 +28,26 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-
-    // context.subscriptions.push(provider1, provider2)
+    context.subscriptions.push(tags.tagCompletion)
 	context.subscriptions.push(toTask, cancelTask, completeTask);
 	context.subscriptions.push(switchTask);
 
 
     if (activeEditor) {
-        triggerUpdateTags(activeEditor, TAGS, DECORATIONS);
+        tags.triggerUpdateTags(activeEditor, TAGS, DECORATIONS);
     }
 
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = editor;
         if (editor) {
-            triggerUpdateTags(activeEditor, TAGS, DECORATIONS);
+            tags.triggerUpdateTags(activeEditor, TAGS, DECORATIONS);
         }
     }, null, context.subscriptions);
 
     vscode.workspace.onDidChangeTextDocument(event => {
         if (activeEditor && event.document === activeEditor.document) {
-            triggerUpdateTags(activeEditor, TAGS, DECORATIONS, true);
+            tags.triggerUpdateTags(activeEditor, TAGS, DECORATIONS, true);
         }
     }, null, context.subscriptions);
 
@@ -69,100 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-function prepareTags(){
-    //> Built-in tags  &  User-defined tags
-    const BUILTIN_TAGS_MAP: {[key:string]:{[key:string]:string}} = {
-        "low"       :   {backgroundColor:"#EEEEEE", color:"#000"},
-        "med"       :   {backgroundColor:"#E6DD4E", color:"#000"},
-        "high"      :   {backgroundColor:"#C00000", overviewRulerColor:"#C00000"},
-        "critical"  :   {backgroundColor:"#800000", overviewRulerColor:"#800000"},
-        "normal_tag":   {backgroundColor:"#3355ff",}
-    }
-    const BUILTIN_TAGS_LIST = Object.keys(BUILTIN_TAGS_MAP)
-    const USER_TAGS_MAP: {[key:string]:{[key:string]:string}} = {...config.tags}
-    const USER_TAGS_LIST = Object.keys(USER_TAGS_MAP)
 
-    const TAGS: string[] = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
-    // console.log(TAGS);
-
-
-    //> getting decoration config for each implemented tag
-    const DECORATIONS: {[key:string]:vscode.TextEditorDecorationType} = {}
-    TAGS.forEach(tag => {
-        if (config.tags[tag]){var conf = USER_TAGS_MAP[tag]}
-        else                 {var conf = BUILTIN_TAGS_MAP[tag]}
-        DECORATIONS[tag] = (
-            vscode.window.createTextEditorDecorationType({
-                dark: {
-                    ...conf
-                },
-            })
-        )
-    });
-    return [TAGS,DECORATIONS];
-// console.log(DECORATIONS);
-}
-
-function updateTags(activeEditor:vscode.TextEditor|undefined,
-                           TAGS:String[],
-                           DECORATIONS:{[key:string]:any[]}){
-
-    if (!activeEditor || activeEditor.document.languageId!=="todo") {
-        return;
-    }
-    const text = activeEditor.document.getText();
-    const allTagsList: vscode.DecorationOptions[] = []; // for now this is useless
-
-    const tagsList: {[key:string]:any[]} = {};  // tagname:[decoration1,...]
-    TAGS.forEach(element => {
-        tagsList[element] = [];
-    });
-    tagsList.normal_tag = []
-    // console.log(tagsList);
-
-    //> Searching the document with regex for tags
-    var regEx = /(?<TAG>@(?<TAGNAME>[^( |\n)]+))/g;
-    let match;
-    while ((match = regEx.exec(text))) {
-        assert(match.groups);
-        var tag = match.groups.TAG
-        var tagname = match.groups.TAGNAME
-
-        const startPos = activeEditor.document.positionAt(match.index);
-        const endPos = activeEditor.document.positionAt(match.index + tag.length);
-        const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + tag + '**' };
-
-        // allTagsList.push(decoration);
-        if (TAGS.includes(tagname)){
-            tagsList[tagname].push(decoration)
-        } else {
-            tagsList["normal_tag"].push(decoration)
-        }
-    }
-    // console.log(tagsList);
-
-    Object.keys(DECORATIONS).forEach(tag => {
-                                 // decoration       list of found regexes
-        activeEditor.setDecorations(DECORATIONS[tag], tagsList[tag]);
-    });
-}
-
-function triggerUpdateTags(activeEditor:vscode.TextEditor|undefined,
-                                  TAGS:String[],
-                                  DECORATIONS:{[key:string]:any[]},
-                                  throttle = false) {
-
-    let timeout: NodeJS.Timer|undefined = undefined;
-    if (timeout) {
-        clearTimeout(timeout);
-        timeout = undefined;
-    }
-    if (throttle) {
-        timeout = setTimeout(updateTags, 500, activeEditor=activeEditor, TAGS=TAGS, DECORATIONS=DECORATIONS);
-    } else {
-        updateTags(activeEditor, TAGS, DECORATIONS);
-    }
-}
 
 
 
@@ -271,8 +177,3 @@ function* switchTaskF() {
         }
     }
 }
-
-
-
-
-
