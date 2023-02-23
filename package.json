@@ -13,6 +13,8 @@
 		"*"
 	],
 	"main": "./out/extension.js",
+
+
   "contributes": {
     "languages": [
         {
@@ -51,6 +53,18 @@
         {
           "command": "Todo.toTask",
           "title": "Make Task"
+        },
+        {
+          "command": "Todo.cancelTask",
+          "title": "Cancel Task"
+        },
+        {
+          "command": "Todo.completeTask",
+          "title": "Complete Task"
+        },
+        {
+          "command": "Todo.switchTask",
+          "title": "Switch Task Status"
         }
     ],
 		"keybindings": [
@@ -62,6 +76,8 @@
 			}
 		]
   },
+
+
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",

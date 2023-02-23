@@ -1,17 +1,23 @@
 import * as vscode from 'vscode';
 import assert = require('assert');
 
+import {getConfigs} from './conf';
+
+
+var config = getConfigs()
+
+
 
 export function activate(context: vscode.ExtensionContext) {
 
     console.log('"RX-Todo" extension is activated');
 
-    let config = vscode.workspace.getConfiguration("todo-ext")
+
     let activeEditor = vscode.window.activeTextEditor;
 
 
-    var TAGS: String[], DECORATIONS:{[key:string]:any[]};
-    [TAGS,DECORATIONS] = prepareTags(config);
+    var  TAGS:string[], DECORATIONS:{[key:string]:any[]};
+    [TAGS,DECORATIONS] = prepareTags();
 
 
 
@@ -23,9 +29,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-
-
-	context.subscriptions.push(toTask);
+    // context.subscriptions.push(provider1, provider2)
+	context.subscriptions.push(toTask, cancelTask, completeTask);
+	context.subscriptions.push(switchTask);
 
 
     if (activeEditor) {
@@ -63,10 +69,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-function prepareTags(config:vscode.WorkspaceConfiguration){
+function prepareTags(){
     //> Built-in tags  &  User-defined tags
     const BUILTIN_TAGS_MAP: {[key:string]:{[key:string]:string}} = {
-        "low"       :   {backgroundColor:"#EEE"   , color:"#000"},
+        "low"       :   {backgroundColor:"#EEEEEE", color:"#000"},
         "med"       :   {backgroundColor:"#E6DD4E", color:"#000"},
         "high"      :   {backgroundColor:"#C00000", overviewRulerColor:"#C00000"},
         "critical"  :   {backgroundColor:"#800000", overviewRulerColor:"#800000"},
@@ -76,7 +82,7 @@ function prepareTags(config:vscode.WorkspaceConfiguration){
     const USER_TAGS_MAP: {[key:string]:{[key:string]:string}} = {...config.tags}
     const USER_TAGS_LIST = Object.keys(USER_TAGS_MAP)
 
-    const TAGS = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
+    const TAGS: string[] = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
     // console.log(TAGS);
 
 
@@ -163,18 +169,21 @@ function triggerUpdateTags(activeEditor:vscode.TextEditor|undefined,
 
 
 
-const toTask = vscode.commands.registerCommand('Todo.toTask', function() {
-    // Get the active text editor
+
+
+
+
+
+
+
+
+function convertTask(symbol){
     const editor = vscode.window.activeTextEditor;
 
     if (editor) {
 
         const position = editor.selection.active;
         const document = editor.document;
-
-        var task_waiting   =  "☐"
-        var task_done      =  "✔"
-        var task_cancelled =  "✘"
 
         var line = document.lineAt(position.line)
         var line_text = line["b"]
@@ -185,9 +194,11 @@ const toTask = vscode.commands.registerCommand('Todo.toTask', function() {
         var Task_Text = match.groups.Task
 
         var new_text = "";
-        if (Task_Text.startsWith(task_done) || Task_Text.startsWith(task_cancelled)){
-            // new_text = Task_Text;
-        } else if (Task_Text.startsWith(task_waiting)){
+
+        if (symbol==Task_Text.slice(0,1)){
+            return false
+        }
+        else {
             new_text = Task_Text.slice(1)
             var regex2 = /(?<ExtraSpaces>\s*)(.*)/;
             var match2 = regex2.exec(new_text)
@@ -195,11 +206,9 @@ const toTask = vscode.commands.registerCommand('Todo.toTask', function() {
             if (match2.groups){
                 new_text = new_text.slice(match2.groups.ExtraSpaces.length)
             }
-        } else {
-            new_text = task_waiting + " " + Task_Text
-        }
+            console.log(new_text);
 
-        if (new_text){
+            new_text = symbol + " " + new_text
             editor.edit(editBuilder => {
                 editBuilder.delete(
                                 new vscode.Range(
@@ -216,7 +225,54 @@ const toTask = vscode.commands.registerCommand('Todo.toTask', function() {
                     new_text
                 );
             });
+            return true
+        }
+
+    }
+}
+
+const toTask = vscode.commands.registerCommand("Todo.toTask", function(){
+    convertTask(config.tasksSymbols.waiting)
+})
+const cancelTask = vscode.commands.registerCommand("Todo.cancelTask", function(){
+    convertTask(config.tasksSymbols.cancelled)
+})
+const completeTask = vscode.commands.registerCommand("Todo.completeTask", function(){
+    convertTask(config.tasksSymbols.done)
+})
+
+
+const switchTask = vscode.commands.registerCommand("Todo.switchTask", function(){
+    convertTask(switchTaskF().next().value)
+})
+function* switchTaskF() {
+    let list = [
+        config.tasksSymbols.waiting,
+        config.tasksSymbols.cancelled,
+        config.tasksSymbols.done
+    ]
+    let i = 0
+
+    const editor = vscode.window.activeTextEditor;
+
+    if (editor) {
+        var line_text = editor.document.lineAt(editor.selection.active.line)["b"]
+        var regEx = /(?<Indent>\s*)(?<Task>.*)/;
+        var Task_Text = regEx.exec(line_text).groups.Task;
+        console.log(Task_Text);
+
+
+        if (list.includes(Task_Text.slice(0,1))){
+            i = list.indexOf(Task_Text.slice(0,1))
+            yield list[++i %3]
+        }
+        else {
+            yield config.tasksSymbols.waiting
         }
     }
+}
 
-});
+
+
+
+
