@@ -2,9 +2,11 @@ TAGS:
     ☐ @high @bug they work in strings
     ☐ @med @feature key-bindings
     ☐ @med @bug work alone
+    ?  Difficulty tags? (easy/normal/hard)
 
 COMPLETIONS:
     ☐ tags list after writing `@`
+    ☐
 
-☐ @high @customTag
-☐
+MAIN:
+    ☐ @low formatter

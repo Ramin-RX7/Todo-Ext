@@ -25,8 +25,7 @@
           ],
           "extensions": [
             ".todo",
-            ".tasks",
-            ".todotest"
+            ".tasks"
           ],
           "configuration": "./language-configuration.json"
         }
@@ -72,6 +71,12 @@
 				"command": "Todo.toTask",
 				"key": "Alt+Enter",
 				"mac": "Cmd+Enter",
+				"when": "editorTextFocus"
+			},
+      {
+				"command": "Todo.switchTask",
+				"key": "Alt+s",
+				"mac": "Cmd+s",
 				"when": "editorTextFocus"
 			}
 		]

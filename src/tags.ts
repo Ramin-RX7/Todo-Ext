@@ -5,6 +5,7 @@ import {getConfigs} from './conf';
 var config = getConfigs()
 
 
+
 //> Built-in tags  &  User-defined tags
 const BUILTIN_TAGS_MAP: {[key:string]:{[key:string]:string}} = {
     "low"       :   {backgroundColor:"#EEEEEE", color:"#000"},
@@ -19,15 +20,8 @@ const USER_TAGS_LIST = Object.keys(USER_TAGS_MAP)
 
 const TAGS: string[] = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
 
-
-
-
-export function prepareTags(){
-
-    // console.log(TAGS);
-
-    //> getting decoration config for each implemented tag
-    const DECORATIONS: {[key:string]:vscode.TextEditorDecorationType} = {}
+//> getting decoration config for each implemented tag
+const DECORATIONS: {[key:string]:vscode.TextEditorDecorationType} = {}
     TAGS.forEach(tag => {
         if (config.tags[tag]){var conf = USER_TAGS_MAP[tag]}
         else                 {var conf = BUILTIN_TAGS_MAP[tag]}
@@ -39,12 +33,12 @@ export function prepareTags(){
             })
         )
     });
-    return [TAGS,DECORATIONS];
-}
+
+
 
 export function updateTags(activeEditor:vscode.TextEditor|undefined,
-                           TAGS:String[],
-                           DECORATIONS:{[key:string]:any[]}){
+                           TAGS:string[],
+                           DECORATIONS:{[key:string]:any}){
 
     if (!activeEditor || activeEditor.document.languageId!=="todo") {
         return;
@@ -67,15 +61,11 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
         var tag = match.groups.TAG
         var tagname = match.groups.TAGNAME
 
-        var hovermsg;
-        if (BUILTIN_TAGS_LIST.includes(tag.slice(1))){
-            hovermsg="Built-in tag:"
-        } else if (USER_TAGS_LIST.includes(tag.slice(1))){
-            hovermsg="User-defined tag:"
-        } else {
-            hovermsg="Local-Project tag:"
-        }
-        hovermsg = new vscode.MarkdownString(hovermsg+" **_"+tag+"_**")
+        var tagType =
+            BUILTIN_TAGS_LIST.includes(tag.slice(1)) ?  "Built-in"
+          : USER_TAGS_LIST   .includes(tag.slice(1)) ?  "User-defined"
+          :                                             "Local-Project";
+        const hovermsg = new vscode.MarkdownString(tagType+" tag: **_"+tag+"_**")
         const startPos = activeEditor.document.positionAt(match.index);
         const endPos = activeEditor.document.positionAt(match.index + tag.length);
         const decoration = { range: new vscode.Range(startPos, endPos),
@@ -97,8 +87,8 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
 }
 
 export function triggerUpdateTags(activeEditor:vscode.TextEditor|undefined,
-                                  TAGS:String[],
-                                  DECORATIONS:{[key:string]:any[]},
+                                  TAGS:string[],
+                                  DECORATIONS:{[key:string]:any},
                                   throttle = false) {
 
     let timeout: NodeJS.Timer|undefined = undefined;
@@ -141,4 +131,4 @@ export var tagCompletion = vscode.languages.registerCompletionItemProvider('todo
 
 
 
-export {TAGS}
+export {TAGS,DECORATIONS}
