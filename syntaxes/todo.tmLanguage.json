@@ -5,6 +5,7 @@
     "patterns": [
         {"include": "#strings"},
         {"include": "#comment"},
+        {"include": "#module" },
         {"include": "#project"}
     ],
     "repository": {
@@ -30,7 +31,7 @@
             "begin": "'",
             "end": "'|\n"
         },
-        
+
 
 
         "comment": {
@@ -68,10 +69,13 @@
         },
 
         "project":{
-            "name": "support.type.project.todo",
+            "name": "variable.other.constant.todo",
             "match": "^(\\s*)(.+):(\\s*)?$"
+        },
+        "module":{
+            "name": "support.type.project.todo",
+            "match": "^(\\s*)\\[(.+)\\](\\s*)?$"
         }
-
 
 
 

@@ -1,6 +1,6 @@
 {
   "name": "rx-todo",
-  "displayName": "VSCode-TODO-Manager",
+  "displayName": "VSCode Todo",
   "description": "VS-Code extension for todo listss",
   "version": "0.0.1",
   "publisher": "RaminRX7",
@@ -75,13 +75,13 @@
 				"command": "Todo.toTask",
 				"key": "Alt+Enter",
 				"mac": "Cmd+Enter",
-				"when": "editorTextFocus"
+				"when": "editorTextFocus && editorLangId=='Todo'"
 			},
       {
 				"command": "Todo.switchTask",
 				"key": "Alt+s",
 				"mac": "Cmd+s",
-				"when": "editorTextFocus"
+				"when": "editorTextFocus && editorLangId=='Todo'"
 			}
 		]
   },

@@ -11,10 +11,11 @@ const BUILTIN_TAGS_MAP: {[key:string]:{[key:string]:string}} = {
     "low"       :   {backgroundColor:"#EEEEEE", color:"#000"},
     "med"       :   {backgroundColor:"#E6DD4E", color:"#000"},
     "high"      :   {backgroundColor:"#C00000", overviewRulerColor:"#C00000"},
-    "critical"  :   {backgroundColor:"#800000", overviewRulerColor:"#800000"},
-    "normal_tag":   {backgroundColor:"#3355ff"}
+    "critical"  :   {backgroundColor:"#600000", overviewRulerColor:"#600000"},
+    "normal_tag":   {backgroundColor:"#3355ff",}
 }
 const BUILTIN_TAGS_LIST = Object.keys(BUILTIN_TAGS_MAP)
+
 const USER_TAGS_MAP: {[key:string]:{[key:string]:string}} = {...config.tags}
 const USER_TAGS_LIST = Object.keys(USER_TAGS_MAP)
 
@@ -23,8 +24,11 @@ const TAGS: string[] = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
 //> getting decoration config for each implemented tag
 const DECORATIONS: {[key:string]:vscode.TextEditorDecorationType} = {}
     TAGS.forEach(tag => {
-        if (config.tags[tag]){var conf = USER_TAGS_MAP[tag]}
-        else                 {var conf = BUILTIN_TAGS_MAP[tag]}
+        if (config.tags[tag]){
+            var conf = USER_TAGS_MAP[tag]
+        } else {
+            var conf = BUILTIN_TAGS_MAP[tag]
+        }
         DECORATIONS[tag] = (
             vscode.window.createTextEditorDecorationType({
                 dark: {
