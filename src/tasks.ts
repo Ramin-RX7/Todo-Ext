@@ -5,7 +5,11 @@ var config = getConfigs()
 
 
 
-function convertTask(symbol){
+/**
+ * Switches the tasks state to given symbol.
+ * If task already has the current symbol, it will return False
+*/
+function convertTaskState(symbol){
     const editor = vscode.window.activeTextEditor;
 
     if (editor) {
@@ -21,22 +25,28 @@ function convertTask(symbol){
         // assert(match?.groups);
         var Task_Text = match.groups.Task
 
-        var new_text = "";
-
         if (symbol==Task_Text.slice(0,1)){
             return false
         }
         else {
-            new_text = Task_Text.slice(1)
+            let new_text;
+            if (!symbol){
+                new_text = Task_Text.slice(1)
+            } else {
+                new_text = Task_Text
+            }
+
             var regex2 = /(?<ExtraSpaces>\s*)(.*)/;
             var match2 = regex2.exec(new_text)
             // assert(match2?.groups);
-            if (match2.groups){
+
+            if (match2.groups.ExtraSpaces){
                 new_text = new_text.slice(match2.groups.ExtraSpaces.length)
             }
-            console.log(new_text);
+            if (symbol){
+                new_text = symbol + " " + new_text
+            }
 
-            new_text = symbol + " " + new_text
             editor.edit(editBuilder => {
                 editBuilder.delete(
                                 new vscode.Range(
@@ -59,42 +69,51 @@ function convertTask(symbol){
     }
 }
 
+
+/**
+ * Switches the tasks state to given symbol.
+ * If task already has the current symbol, it will remove it (also removes whitespaces)
+*/
+function toState_or_Default(symbol){
+    if (!convertTaskState(symbol)){
+        convertTaskState("")
+    }
+}
+
 const toTask = vscode.commands.registerCommand("Todo.toTask", function(){
-    convertTask(config.tasksSymbols.waiting)
+    toState_or_Default(config.tasksSymbols.waiting)
 })
 const cancelTask = vscode.commands.registerCommand("Todo.cancelTask", function(){
-    convertTask(config.tasksSymbols.cancelled)
+    toState_or_Default(config.tasksSymbols.cancelled)
 })
 const completeTask = vscode.commands.registerCommand("Todo.completeTask", function(){
-    convertTask(config.tasksSymbols.done)
+    toState_or_Default(config.tasksSymbols.done)
 })
 
 
 const switchTask = vscode.commands.registerCommand("Todo.switchTask", function(){
-    convertTask(switchTaskF().next().value)
+    convertTaskState(switchTaskF().next().value)
 })
 function* switchTaskF() {
     let list = [
+        "",
         config.tasksSymbols.waiting,
+        config.tasksSymbols.done,
         config.tasksSymbols.cancelled,
-        config.tasksSymbols.done
     ]
-    let i = 0
 
-    const editor = vscode.window.activeTextEditor;
+    let editor = vscode.window.activeTextEditor;
 
     if (editor) {
         var line_text = editor.document.lineAt(editor.selection.active.line)["b"]
         var regEx = /(?<Indent>\s*)(?<Task>.*)/;
         var Task_Text = regEx.exec(line_text).groups.Task;
-        console.log(Task_Text);
-
+        // console.log(Task_Text);
 
         if (list.includes(Task_Text.slice(0,1))){
-            i = list.indexOf(Task_Text.slice(0,1))
+            let i = list.indexOf(Task_Text.slice(0,1))
             yield list[++i %3]
-        }
-        else {
+        } else {
             yield config.tasksSymbols.waiting
         }
     }

@@ -2,7 +2,7 @@
   "name": "rx-todo",
   "displayName": "VSCode Todo",
   "description": "VS-Code extension for todo listss",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "RaminRX7",
   "icon": "icon.png",
 	"repository": {
