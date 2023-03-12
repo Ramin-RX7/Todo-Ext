@@ -2,106 +2,101 @@
   "name": "rx-todo",
   "displayName": "VSCode Todo",
   "description": "VS-Code extension for todo listss",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "RaminRX7",
   "icon": "icon.png",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Ramin-RX7/vscode-todo"
-	},
-
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ramin-RX7/vscode-todo"
+  },
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
     "Programming Languages"
   ],
-
   "main": "./out/extension.js",
-
   "contributes": {
     "languages": [
-        {
-          "id": "todo",
-          "aliases": [
-            "Todo",
-            "todo"
-          ],
-          "extensions": [
-            ".todo",
-            ".tasks"
-          ],
-          "configuration": "./language-configuration.json"
-        }
+      {
+        "id": "todo",
+        "aliases": [
+          "Todo",
+          "todo"
+        ],
+        "extensions": [
+          ".todo",
+          ".tasks"
+        ],
+        "configuration": "./language-configuration.json"
+      }
     ],
     "grammars": [
-        {
-          "language": "todo",
-          "scopeName": "source.todo",
-          "path": "./syntaxes/todo.tmLanguage.json"
-        }
+      {
+        "language": "todo",
+        "scopeName": "source.todo",
+        "path": "./syntaxes/todo.tmLanguage.json"
+      }
     ],
     "colors": [
-		  	{
-		  		"id": "myextension.largeNumberBackground",
-		  		"description": "Background decoration color for large numbers",
-		  		"defaults": {
-		  			"dark": "#FF000055",
-		  			"light": "#FF000055",
-		  			"highContrast": "#FF000055"
-		  		}
-		  	}
-		],
-    "commands": [
-        {
-          "command": "Todo.toTask",
-          "title": "Make Task"
-        },
-        {
-          "command": "Todo.cancelTask",
-          "title": "Cancel Task"
-        },
-        {
-          "command": "Todo.completeTask",
-          "title": "Complete Task"
-        },
-        {
-          "command": "Todo.switchTask",
-          "title": "Switch Task Status"
-        }
-    ],
-		"keybindings": [
-			{
-				"command": "Todo.toTask",
-				"key": "Alt+Enter",
-				"mac": "Cmd+Enter",
-				"when": "editorTextFocus && editorLangId=='todo'"
-			},
       {
-				"command": "Todo.switchTask",
-				"key": "Alt+s",
-				"mac": "Cmd+s",
-				"when": "editorTextFocus && editorLangId=='todo'"
-			}
-		]
+        "id": "myextension.largeNumberBackground",
+        "description": "Background decoration color for large numbers",
+        "defaults": {
+          "dark": "#FF000055",
+          "light": "#FF000055",
+          "highContrast": "#FF000055"
+        }
+      }
+    ],
+    "commands": [
+      {
+        "command": "Todo.toTask",
+        "title": "Make Task"
+      },
+      {
+        "command": "Todo.cancelTask",
+        "title": "Cancel Task"
+      },
+      {
+        "command": "Todo.completeTask",
+        "title": "Complete Task"
+      },
+      {
+        "command": "Todo.switchTask",
+        "title": "Switch Task Status"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "Todo.toTask",
+        "key": "Alt+Enter",
+        "mac": "Cmd+Enter",
+        "when": "editorTextFocus && editorLangId=='todo'"
+      },
+      {
+        "command": "Todo.switchTask",
+        "key": "Alt+s",
+        "mac": "Cmd+s",
+        "when": "editorTextFocus && editorLangId=='todo'"
+      }
+    ]
   },
-
-
-	"scripts": {
-		"vscode:prepublish": "npm run compile",
-		"compile": "tsc -p ./",
-		"lint": "eslint \"src/**/*.ts\"",
-		"watch": "tsc -watch -p ./",
-		"download-api": "vscode-dts dev",
-		"postinstall": "npm run download-api"
-	},
-	"devDependencies": {
-		"@types/node": "^16.11.7",
-		"@types/vscode": "^1.73.0",
-		"@typescript-eslint/eslint-plugin": "^5.42.0",
-		"@typescript-eslint/parser": "^5.42.0",
-		"eslint": "^8.26.0",
-		"vscode-dts": "^0.3.3",
-		"typescript": "^4.9.4"
-	}
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint \"src/**/*.ts\"",
+    "watch": "tsc -watch -p ./",
+    "download-api": "vscode-dts dev",
+    "postinstall": "npm run download-api"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/vscode": "^1.73.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "eslint": "^8.26.0",
+    "vscode-dts": "^0.3.3",
+    "typescript": "^4.9.4"
+  }
 }
