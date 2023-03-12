@@ -21,5 +21,6 @@
         "assigned" :        |  🚩
         "approveNeeded":  📊 ❓ ❔
 
+
 [COMPLETIONS]
-    ☐ tags list after writing `@`
+    ✔ tags list after writing `@`

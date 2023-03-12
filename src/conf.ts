@@ -4,7 +4,7 @@ import {workspace} from 'vscode';
 
 var DEFAULT_CONFIGS = {
     tags : {},
-    tagsSymbols : {
+    tasksSymbols : {
         "waiting"  :     "☐",
         "done"     :     "✔",
         "cancelled":     "✘",   // 🗙

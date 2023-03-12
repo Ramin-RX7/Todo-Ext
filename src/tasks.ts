@@ -30,11 +30,15 @@ function convertTaskState(symbol){
         }
         else {
             let new_text;
-            if (!symbol){
+            // console.log(Object.values(config.tasksSymbols));
+
+            if ((!symbol) || (Object.values(config.tasksSymbols).includes(Task_Text.slice(0,1)))){
+                // console.log("yes");
                 new_text = Task_Text.slice(1)
             } else {
                 new_text = Task_Text
             }
+            // console.log(new_text);
 
             var regex2 = /(?<ExtraSpaces>\s*)(.*)/;
             var match2 = regex2.exec(new_text)
@@ -108,11 +112,10 @@ function* switchTaskF() {
         var line_text = editor.document.lineAt(editor.selection.active.line)["b"]
         var regEx = /(?<Indent>\s*)(?<Task>.*)/;
         var Task_Text = regEx.exec(line_text).groups.Task;
-        // console.log(Task_Text);
 
         if (list.includes(Task_Text.slice(0,1))){
             let i = list.indexOf(Task_Text.slice(0,1))
-            yield list[++i %3]
+            yield list[++i %4]
         } else {
             yield config.tasksSymbols.waiting
         }

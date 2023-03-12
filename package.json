@@ -75,13 +75,13 @@
 				"command": "Todo.toTask",
 				"key": "Alt+Enter",
 				"mac": "Cmd+Enter",
-				"when": "editorTextFocus && editorLangId=='Todo'"
+				"when": "editorTextFocus && editorLangId=='todo'"
 			},
       {
 				"command": "Todo.switchTask",
 				"key": "Alt+s",
 				"mac": "Cmd+s",
-				"when": "editorTextFocus && editorLangId=='Todo'"
+				"when": "editorTextFocus && editorLangId=='todo'"
 			}
 		]
   },
