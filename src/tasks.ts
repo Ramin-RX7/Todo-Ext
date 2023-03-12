@@ -84,6 +84,7 @@ function toState_or_Default(symbol){
     }
 }
 
+
 const toTask = vscode.commands.registerCommand("Todo.toTask", function(){
     toState_or_Default(config.tasksSymbols.waiting)
 })
@@ -106,6 +107,8 @@ function* switchTaskF() {
         config.tasksSymbols.cancelled,
     ]
 
+    list = [""].concat(Object.values(config.tasksSymbols))
+
     let editor = vscode.window.activeTextEditor;
 
     if (editor) {
@@ -115,7 +118,7 @@ function* switchTaskF() {
 
         if (list.includes(Task_Text.slice(0,1))){
             let i = list.indexOf(Task_Text.slice(0,1))
-            yield list[++i %4]
+            yield list[++i % list.length]
         } else {
             yield config.tasksSymbols.waiting
         }

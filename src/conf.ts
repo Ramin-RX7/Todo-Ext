@@ -8,9 +8,9 @@ var DEFAULT_CONFIGS = {
         "waiting"  :     "☐",
         "done"     :     "✔",
         "cancelled":     "✘",   // 🗙
-        "postponed":     "➔",   // ➜ ➤  |  ➡️
-        "assigned" :     "⚑",   //   |  🚩
-        "approveNeeded": "?"    // 📊 ❓ ❔
+        // "postponed":     "➔",   // ➜ ➤  |  ➡️
+        // "assigned" :     "⚑",   //   |  🚩
+        // "approveNeeded": "?"    // 📊 ❓ ❔
     }
 }
 

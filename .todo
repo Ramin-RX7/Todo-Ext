@@ -1,5 +1,5 @@
 [MAIN]
-    ☐ @low formatter
+    ☐ @low @hard formatter
 
 [TAGS]
     ☐ @high @bug they work in strings
@@ -15,6 +15,10 @@
 
 [TASK-STATUS]
     ☐ change opacity of `cancelled` and `done/completed` tasks
+    ?  When a text is selected (at the begining of a line) and then, `make task`
+        command is called, it should remove the selected part
+    ☐ @bug when `make task` is called in a line that is not empty,
+         it moves the curser to the end of line after calling the command
     Symbols:
         "cancelled":      🗙
         "postponed":      ➜ ➤  |  ➡️
