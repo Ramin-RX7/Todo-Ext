@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import assert = require('assert');
 
-import {getConfigs} from './conf';
+import {getConfigs} from './configs';
 var config = getConfigs()
 
 

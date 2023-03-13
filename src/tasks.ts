@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import {getConfigs} from './conf';
+import {getConfigs} from './configs';
 var config = getConfigs()
 
 
