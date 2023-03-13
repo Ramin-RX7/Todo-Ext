@@ -1,7 +1,7 @@
 {
   "name": "rx-todo",
   "displayName": "VSCode Todo",
-  "description": "VS-Code extension for todo listss",
+  "description": "VS-Code extension for better todo lists in separate files",
   "version": "0.0.3",
   "publisher": "RaminRX7",
   "icon": "icon.png",
@@ -9,36 +9,41 @@
     "type": "git",
     "url": "https://github.com/Ramin-RX7/vscode-todo"
   },
-  "engines": {
-    "vscode": "^1.75.0"
-  },
+  "engines": {"vscode": "^1.75.0"},
   "categories": [
     "Programming Languages"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "breakpoints": [
+      {
+        "language": "todo"
+      }
+    ],
+
     "languages": [
-      {
-        "id": "todo",
-        "aliases": [
-          "Todo",
-          "todo"
-        ],
-        "extensions": [
-          ".todo",
-          ".tasks"
-        ],
-        "configuration": "./language-configuration.json"
-      }
-    ],
-    "grammars": [
-      {
-        "language": "todo",
-        "scopeName": "source.todo",
-        "path": "./syntaxes/todo.tmLanguage.json"
-      }
-    ],
-    "colors": [
+        {
+          "id": "todo",
+          "aliases": [
+            "Todo",
+            "todo"
+          ],
+          "extensions": [
+            ".todo",
+            "todo.*"
+          ],
+          "configuration": "./language-configuration.json"
+        }
+      ],
+
+      "grammars": [
+        {
+          "language": "todo",
+          "scopeName": "source.todo",
+          "path": "./syntaxes/todo.tmLanguage.json"
+        }
+      ],
+      "colors": [
       {
         "id": "myextension.largeNumberBackground",
         "description": "Background decoration color for large numbers",
@@ -48,8 +53,9 @@
           "highContrast": "#FF000055"
         }
       }
-    ],
-    "commands": [
+      ],
+
+      "commands": [
       {
         "command": "Todo.toTask",
         "title": "Make Task"
@@ -66,8 +72,9 @@
         "command": "Todo.switchTask",
         "title": "Switch Task Status"
       }
-    ],
-    "keybindings": [
+      ],
+
+      "keybindings": [
       {
         "command": "Todo.toTask",
         "key": "Alt+Enter",
@@ -80,7 +87,30 @@
         "mac": "Cmd+s",
         "when": "editorTextFocus && editorLangId=='todo'"
       }
-    ]
+      ],
+
+      "configuration": {
+			  "type": "object",
+			  "title": "VSCode-Todo",
+			  "properties": {
+			  	  "vscode-todo-ext.tags": {
+			  	  	"type": "object",
+			  	  	"default": {},
+			  	  	"description": "Customize tags to have different css styles. like color,background-color,font-style, etc."
+			  	  },
+            "vscode-todo-ext.tasksSymbols": {
+              "type": "object",
+              "additionalProperties": "string",
+			  	  	"default": {
+                "waiting"  :     "☐",
+                "done"     :     "✔",
+                "cancelled":     "✘"
+              },
+			  	  	"description": "First non-space character of a task that determines the status of it."
+            }
+			  }
+		  }
+
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

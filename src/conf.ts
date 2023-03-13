@@ -1,4 +1,3 @@
-
 import {workspace} from 'vscode';
 
 
@@ -17,7 +16,7 @@ var DEFAULT_CONFIGS = {
 
 
 export function getConfigs(){
-    let USER_CONFIG = workspace.getConfiguration("todo-ext");
+    let USER_CONFIG = workspace.getConfiguration("vscode-todo-ext");
     return mergeDeep(DEFAULT_CONFIGS, USER_CONFIG)
 
 }

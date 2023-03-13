@@ -1,19 +1,20 @@
 [MAIN]
     ☐ @low @hard formatter
 
+
 [TAGS]
+    ☐ New tags: [`bug`]
     ☐ @high @bug they work in strings
     ☐ @med @feature key-bindings
-    ?  @med @bug should they work alone?
+    ? @med @bug should they work alone?
     ?  Difficulty tags? (easy/normal/hard)
     ?  There should not be tags for `cancelled`,`completed`,etc. =>
          - Instead we can use task symbols
-         - tags can be useful when detecting tasks after that
+         - but tags can be useful when detecting tasks after that
              task symbols have changed
 
 
-
-[TASK-STATUS]
+[TASKS-STATUS]
     ☐ change opacity of `cancelled` and `done/completed` tasks
     ?  When a text is selected (at the begining of a line) and then, `make task`
         command is called, it should remove the selected part
