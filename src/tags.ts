@@ -58,7 +58,7 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
     // console.log(tagsList);
 
     //> Searching the document with regex for tags
-    var regEx = /(?<TAG>@(?<TAGNAME>[^(\r| |\n)]+))/g;
+    var regEx = /(?<TAG>@(?<TAGNAME>[^(\r| |\n|`|'|"|@)]+))/g;
     let match;
     while ((match = regEx.exec(text))) {
         assert(match.groups);

@@ -70,7 +70,7 @@
 
         "project":{
             "name": "variable.other.constant.todo",
-            "match": "^(\\s*)([^( )]+):(\\s*)?$"
+            "match": "^(\\s*)([^ ]+) ?([^ ]*)(\\s*):(\\s*)?$"
         },
         "module":{
             "name": "support.type.project.todo",
