@@ -4,9 +4,10 @@ import {workspace} from 'vscode';
 var DEFAULT_CONFIGS = {
     tags : {},
     tasksSymbols : {
-        "waiting"  :     "☐",
-        "done"     :     "✔",
-        "cancelled":     "✘",   // 🗙
+        "waiting"  :  "☐",
+        "done"     :  "✔",
+        "cancelled":  "✘",   // 🗙
+        "uncertain":  "? "
         // "postponed":     "➔",   // ➜ ➤  |  ➡️
         // "assigned" :     "⚑",   //   |  🚩
         // "approveNeeded": "?"    // 📊 ❓ ❔

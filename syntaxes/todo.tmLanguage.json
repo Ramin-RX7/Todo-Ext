@@ -72,8 +72,16 @@
             "match": "^(\\s*)([^ ]+) ?([^ ]*)(\\s*):(\\s*)?$"
         },
         "module":{
-            "name": "support.type.module.todo",
-            "match": "^(\\s*)\\[(.+)\\](\\s*)?$"
+            "patterns": [
+                {
+                    "name": "invalid.illegal.module.todo",
+                    "match": "^\\s+\\[(.+)\\](\\s*)?$"
+                },
+                {
+                    "name": "support.type.module.todo",
+                    "match": "^\\[(.+)\\](\\s*)?$"
+                }
+            ]
         }
 
 
