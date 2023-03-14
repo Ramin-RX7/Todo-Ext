@@ -90,6 +90,7 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
     });
 }
 
+
 export function triggerUpdateTags(activeEditor:vscode.TextEditor|undefined,
                                   TAGS:string[],
                                   DECORATIONS:{[key:string]:any},
@@ -106,8 +107,6 @@ export function triggerUpdateTags(activeEditor:vscode.TextEditor|undefined,
         updateTags(activeEditor, TAGS, DECORATIONS);
     }
 }
-
-
 
 
 export var tagCompletion = vscode.languages.registerCompletionItemProvider('todo', {

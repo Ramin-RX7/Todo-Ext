@@ -1,9 +1,10 @@
 import * as vscode from 'vscode';
 import assert = require('assert');
 
-import {getConfigs} from './conf';
-import tags = require("./tags")
-import tasks = require("./tasks")
+import {getConfigs} from './configs';
+import { TAGS } from './tags';
+const tags = require("./tags")
+const tasks = require("./tasks")
 
 
 var config = getConfigs()
@@ -21,14 +22,9 @@ export function activate(context: vscode.ExtensionContext) {
     var DECORATIONS = tags.DECORATIONS
 
 
-    /*
-    var resource = activeEditor.document.uri;
-    var folder = workspace.getWorkspaceFolder(resource)
-    var text = `${basename(folder.uri.fsPath)} (${folder.index + 1} of ${workspace.workspaceFolders.length}) → ${basename(resource.fsPath)}`;
-    console.log(text);
-    */
 
 
+    TEST()
 
 
 
@@ -47,6 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
         activeEditor = vscode.window.activeTextEditor;
         if (activeEditor) {
             tags.triggerUpdateTags(activeEditor, TAGS, DECORATIONS);
+            // get_ws_todo();
         }
     }, null, context.subscriptions);
 
@@ -58,3 +55,17 @@ export function activate(context: vscode.ExtensionContext) {
     }, null, context.subscriptions);
 
 }
+
+
+function TEST(){
+    // let activeEditor = vscode.window.activeTextEditor;
+    // var file = activeEditor.document;
+    // var folder = vscode.workspace.getWorkspaceFolder(file.uri)
+    // let f = path.join(folder.uri.fsPath, "RX_CSG")
+    // vscode.window.showTextDocument(vscode.Uri.file(f)) //vscode.workspace.openTextDocument()
+}
+
+vscode.commands.registerCommand('VSCODE-TODO.TEST-COMMAND', async () => {
+
+
+});

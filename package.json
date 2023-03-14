@@ -5,14 +5,18 @@
   "version": "0.0.3",
   "publisher": "RaminRX7",
   "icon": "icon.png",
+
   "repository": {
     "type": "git",
     "url": "https://github.com/Ramin-RX7/vscode-todo"
   },
-  "engines": {"vscode": "^1.75.0"},
+
   "categories": [
-    "Programming Languages"
+    "Programming Languages", "Snippets", "Other"
   ],
+  "keywords": ["todo","todo-list","tasks"],
+  "engines": {"vscode": "^1.75.0"},
+
   "main": "./out/extension.js",
   "contributes": {
     "breakpoints": [
@@ -36,26 +40,28 @@
         }
       ],
 
-      "grammars": [
-        {
-          "language": "todo",
-          "scopeName": "source.todo",
-          "path": "./syntaxes/todo.tmLanguage.json"
-        }
-      ],
-      "colors": [
+    "grammars": [
       {
-        "id": "myextension.largeNumberBackground",
-        "description": "Background decoration color for large numbers",
-        "defaults": {
-          "dark": "#FF000055",
-          "light": "#FF000055",
-          "highContrast": "#FF000055"
-        }
+        "language": "todo",
+        "scopeName": "source.todo",
+        "path": "./syntaxes/todo.tmLanguage.json"
       }
-      ],
+    ],
 
-      "commands": [
+    "colors": [
+    {
+      "id": "myextension.largeNumberBackground",
+      "description": "Background decoration color for large numbers",
+      "defaults": {
+        "dark": "#FF000055",
+        "light": "#FF000055",
+        "highContrast": "#FF000055"
+      }
+    }
+    ],
+
+    "commands": [
+      {"command": "VSCODE-TODO.TEST-COMMAND", "title": "VSCODE-TODO::TEST"},
       {
         "command": "Todo.toTask",
         "title": "Make Task"
@@ -72,9 +78,9 @@
         "command": "Todo.switchTask",
         "title": "Switch Task Status"
       }
-      ],
+    ],
 
-      "keybindings": [
+    "keybindings": [
       {
         "command": "Todo.toTask",
         "key": "Alt+Enter",
@@ -87,9 +93,9 @@
         "mac": "Cmd+s",
         "when": "editorTextFocus && editorLangId=='todo'"
       }
-      ],
+    ],
 
-      "configuration": {
+    "configuration": {
 			  "type": "object",
 			  "title": "VSCode-Todo",
 			  "properties": {
@@ -109,7 +115,7 @@
 			  	  	"description": "First non-space character of a task that determines the status of it."
             }
 			  }
-		  }
+	  }
 
   },
   "scripts": {
