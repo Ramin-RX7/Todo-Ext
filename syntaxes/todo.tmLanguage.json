@@ -6,7 +6,7 @@
         {"include": "#strings"},
         {"include": "#comment"},
         {"include": "#module" },
-        {"include": "#project"}
+        {"include": "#section"}
     ],
     "repository": {
         "strings" : {
@@ -37,43 +37,42 @@
         "comment": {
             "captures": {
                 "1": {
-                    "name": "comment.line.number-sign.todo"
+                    "name": "comment.line.double-slash.todo"
                 }
             },
-            "comment": "Comments",
             "match": "\\s*((//).*)$"
         },
 
         "tag":{
-            "name": "variable.legacy.todotag",
+            "name": "variable.tag.todo",
             "begin":"@",
             "end": " |\\n",
             "patterns": [
                 {
-                    "name":"invalid.illegal.operator.todo",
+                    "name":"invalid.criticaltag.todo",
                     "match": "critical"
                 },
                 {
-                    "name":"entity.name.function.todo",
+                    "name":"entity.name.function.lowtag.todo",
                     "match": "low"
                 },
                 {
-                    "name":"variable.other.constant.todo",
+                    "name":"variable.other.medtag.todo",
                     "match": "med "
                 },
                 {
-                    "name": "keyword.control.import.todo",
+                    "name": "keyword.control.hightag.todo",
                     "match": "high"
                 }
             ]
         },
 
-        "project":{
+        "section":{
             "name": "variable.other.constant.todo",
             "match": "^(\\s*)([^ ]+) ?([^ ]*)(\\s*):(\\s*)?$"
         },
         "module":{
-            "name": "support.type.project.todo",
+            "name": "support.type.module.todo",
             "match": "^(\\s*)\\[(.+)\\](\\s*)?$"
         }
 
