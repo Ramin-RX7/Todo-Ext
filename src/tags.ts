@@ -12,7 +12,7 @@ const BUILTIN_TAGS_MAP: {[key:string]:{[key:string]:string}} = {
     "med"       :   {backgroundColor:"#E6DD4E", color:"#000"},
     "high"      :   {backgroundColor:"#C00000", overviewRulerColor:"#C00000"},
     "critical"  :   {backgroundColor:"#600000", overviewRulerColor:"#600000"},
-    "normal_tag":   {backgroundColor:"#3355ff",}
+    "_normal_tag":   {backgroundColor:"#3355ff",}
 }
 const BUILTIN_TAGS_LIST = Object.keys(BUILTIN_TAGS_MAP)
 
@@ -54,7 +54,7 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
     TAGS.forEach(element => {
         tagsList[element] = [];
     });
-    tagsList.normal_tag = []
+    tagsList._normal_tag = []
     // console.log(tagsList);
 
     //> Searching the document with regex for tags
@@ -79,7 +79,7 @@ export function updateTags(activeEditor:vscode.TextEditor|undefined,
         if (TAGS.includes(tagname)){
             tagsList[tagname].push(decoration)
         } else {
-            tagsList["normal_tag"].push(decoration)
+            tagsList["_normal_tag"].push(decoration)
         }
     }
     // console.log(tagsList);

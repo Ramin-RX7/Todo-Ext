@@ -5,7 +5,7 @@ const TAGS_MAP: {[key:string]:{[key:string]:string}} = {
     "med"       :   {backgroundColor:"#E6DD4E", color:"#000"},
     "high"      :   {backgroundColor:"#C00000", overviewRulerColor:"#C00000"},
     "critical"  :   {backgroundColor:"#600000", overviewRulerColor:"#600000"},
-    "normal_tag":   {backgroundColor:"#3355ff",}
+    "_normal_tag":   {backgroundColor:"#3355ff",}
 }
 
 const TODO_FILES:string[] = [".todo","todo.todo","main.todo","tasks.todo"]
