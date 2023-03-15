@@ -2,10 +2,10 @@ import * as vscode from 'vscode';
 import assert = require('assert');
 
 import {getConfigs} from './configs';
-import { TAGS } from './tags';
-const tags = require("./tags")
-const tasks = require("./tasks")
+const TAGS = require("./tags")
+const TASKS = require("./tasks")
 
+import {RegisterTreeProvider} from './provider';
 
 var config = getConfigs()
 
@@ -18,8 +18,8 @@ export function activate(context: vscode.ExtensionContext) {
     var activeEditor = vscode.window.activeTextEditor;
 
 
-    var TAGS = tags.TAGS
-    var DECORATIONS = tags.DECORATIONS
+    // var TAGS = TAGS.DEFINED_TAGS
+    var DECORATIONS = TAGS.DECORATIONS
 
 
 
@@ -29,20 +29,21 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-    context.subscriptions.push(tags.tagCompletion)
-	context.subscriptions.push(tasks.toTask, tasks.cancelTask, tasks.completeTask);
-	context.subscriptions.push(tasks.switchTask);
+
+    context.subscriptions.push(TAGS.tagCompletion)
+	context.subscriptions.push(TASKS.toTask, TASKS.cancelTask, TASKS.completeTask);
+	context.subscriptions.push(TASKS.switchTask);
 
 
     if (activeEditor) {
-        tags.triggerUpdateTags(activeEditor, TAGS, DECORATIONS);
+        TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS);
     }
 
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = vscode.window.activeTextEditor;
         if (activeEditor) {
-            tags.triggerUpdateTags(activeEditor, TAGS, DECORATIONS);
+            TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS);
             // get_ws_todo();
         }
     }, null, context.subscriptions);
@@ -50,7 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.workspace.onDidChangeTextDocument(event => {
         activeEditor = vscode.window.activeTextEditor;
         if (activeEditor && event.document === activeEditor.document) {
-            tags.triggerUpdateTags(activeEditor, TAGS, DECORATIONS, true);
+            TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS, true);
         }
     }, null, context.subscriptions);
 
@@ -58,14 +59,35 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 function TEST(){
+
+}
+
+vscode.commands.registerCommand('VSCODE-TODO.TEST-COMMAND', async () => {
+    let editor = vscode.window.activeTextEditor;
+    let lines = editor.document.getText().split("\n");
+
+    /*
+    let checkbox_items = []
+    Object.keys(config.tasksSymbols).forEach(element => {
+        checkbox_items.push(`${element}  (${config.tasksSymbols[element]})`)
+    });
+    const list = await vscode.window.showQuickPick(
+        checkbox_items,
+        {   ignoreFocusOut: true,
+            canPickMany: true,
+            title:"Tags to be included",
+            "placeHolder": "Select or filter task status"
+        }
+    )
+    console.log(list);
+    */
+
+    // vscode.window.showInformationMessage('Info Notification As Modal', { modal: true, })
+    // const selection = await vscode.window.showWarningMessage('Warning Notification With Actions', 'Action 1', 'Action 2', 'Action 3');
+
     // let activeEditor = vscode.window.activeTextEditor;
     // var file = activeEditor.document;
     // var folder = vscode.workspace.getWorkspaceFolder(file.uri)
     // let f = path.join(folder.uri.fsPath, "RX_CSG")
     // vscode.window.showTextDocument(vscode.Uri.file(f)) //vscode.workspace.openTextDocument()
-}
-
-vscode.commands.registerCommand('VSCODE-TODO.TEST-COMMAND', async () => {
-
-
 });

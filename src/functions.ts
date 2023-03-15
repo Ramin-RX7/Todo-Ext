@@ -4,7 +4,7 @@ import * as fs from "fs"
 
 
 import {getConfigs} from './configs';
-import { TAGS } from './tags';
+import { DEFINED_TAGS } from './tags';
 var config = getConfigs()
 
 
@@ -66,7 +66,7 @@ function extract_tasks_category(){
     let lines = editor.document.getText().split("\n");
 
     let TAGS_DICT = {};
-    TAGS.forEach(tag => {
+    DEFINED_TAGS.forEach(tag => {
         TAGS_DICT[tag] = []
     });
 

@@ -12,18 +12,18 @@ const BUILTIN_TAGS_MAP: {[key:string]:{[key:string]:string}} = {
     "med"       :   {backgroundColor:"#E6DD4E", color:"#000"},
     "high"      :   {backgroundColor:"#C00000", overviewRulerColor:"#C00000"},
     "critical"  :   {backgroundColor:"#600000", overviewRulerColor:"#600000"},
-    "_normal_tag":   {backgroundColor:"#3355ff",}
+    "_normal_tag":  {backgroundColor:"#3355ff",}
 }
 const BUILTIN_TAGS_LIST = Object.keys(BUILTIN_TAGS_MAP)
 
 const USER_TAGS_MAP: {[key:string]:{[key:string]:string}} = {...config.tags}
 const USER_TAGS_LIST = Object.keys(USER_TAGS_MAP)
 
-const TAGS: string[] = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
+const DEFINED_TAGS: string[] = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
 
 //> getting decoration config for each implemented tag
 const DECORATIONS: {[key:string]:vscode.TextEditorDecorationType} = {}
-    TAGS.forEach(tag => {
+    DEFINED_TAGS.forEach(tag => {
         if (config.tags[tag]){
             var conf = USER_TAGS_MAP[tag]
         } else {
@@ -120,7 +120,7 @@ export var tagCompletion = vscode.languages.registerCompletionItemProvider('todo
         snippetCompletion.command = { command:'Todo.toTask', title:"" };
         snippets.push(snippetCompletion);
 
-        (TAGS).forEach(tag => {
+        (DEFINED_TAGS).forEach(tag => {
             let snippet = new vscode.CompletionItem(tag)
             snippet.insertText = '@'+tag+" "
             snippet.kind = vscode.CompletionItemKind.EnumMember
@@ -134,4 +134,4 @@ export var tagCompletion = vscode.languages.registerCompletionItemProvider('todo
 
 
 
-export {TAGS,DECORATIONS}
+export {DEFINED_TAGS, DECORATIONS}
