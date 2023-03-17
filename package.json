@@ -115,7 +115,29 @@
 			  	  	"description": "First non-space character of a task that determines the status of it."
             }
 			  }
-	  }
+	  },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "vscode-todo-viewcontainer",
+          "title": "Todo",
+          "icon": "./others/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "vscode-todo-viewcontainer": [
+        {
+          "id": "todo-ext-view-wsDirs",
+          "name": "Workspace Dirs"
+        },
+        {
+
+          "id": "todo-ext-view-customDirs",
+          "name": "Custom Dirs"
+        }
+      ]
+    }
 
   },
   "scripts": {

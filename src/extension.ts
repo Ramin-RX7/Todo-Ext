@@ -5,7 +5,7 @@ import {getConfigs} from './configs';
 const TAGS = require("./tags")
 const TASKS = require("./tasks")
 
-import {RegisterTreeProvider} from './provider';
+import {NodeDependenciesProvider} from './provider';
 
 var config = getConfigs()
 
@@ -25,6 +25,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 
     TEST()
+    const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
+    vscode.window.createTreeView('todo-ext-view-wsDirs', {
+            treeDataProvider: new NodeDependenciesProvider(wsDirs)
+    });
 
 
 
@@ -56,6 +60,9 @@ export function activate(context: vscode.ExtensionContext) {
     }, null, context.subscriptions);
 
 }
+
+
+
 
 
 function TEST(){
