@@ -1,14 +1,12 @@
 import * as vscode from 'vscode';
 import assert = require('assert');
 
-import {getConfigs} from './configs';
 import FUNCTIONS = require("./functions")
 const TAGS = require("./tags")
 const TASKS = require("./tasks")
-
 import {NodeDependenciesProvider} from './provider';
 
-var config = getConfigs()
+var config = FUNCTIONS.getConfigs()
 
 
 
@@ -27,10 +25,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     TEST()
     const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
+    const Provider = new NodeDependenciesProvider(wsDirs)
     vscode.window.createTreeView('todo-ext-view-wsDirs', {
-        treeDataProvider: new NodeDependenciesProvider(wsDirs)
+        treeDataProvider: Provider
     });
-
+    vscode.commands.registerCommand('Todo.refreshTreeView', () =>
+        Provider.refresh()
+    );
 
 
 

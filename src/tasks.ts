@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 
-import {getConfigs} from './configs';
-var config = getConfigs()
+import FUNCTIONS = require("./functions")
+
+var config = FUNCTIONS.getConfigs()
 
 
 
