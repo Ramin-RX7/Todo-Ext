@@ -8,20 +8,8 @@ import { DEFINED_TAGS } from './tags';
 var config = getConfigs()
 
 
-function get_ws_todo() {
-    let activeEditor = vscode.window.activeTextEditor;
-    var file = activeEditor.document;
-    var folder = vscode.workspace.getWorkspaceFolder(file.uri)
 
-    if (folder==undefined){
-        return undefined;
-    }
-
-    // console.log(`${folder.index + 1} of ${vscode.workspace.workspaceFolders.length}`);
-    // path.basename(file.uri.fsPath)
-    // var found_todo_files = fs.readdirSync(folder.uri.fsPath).filter(fn => fn.endsWith('.todo'));
-    // console.log(found_todo_files);
-
+export function get_dir_todo(folder_uri){
     let builtin_todo_files = [".todo","todo.todo","main.todo","tasks.todo"]
     let valid_todo_files;
     if (config.customTodoFiles){
@@ -29,16 +17,27 @@ function get_ws_todo() {
     } else {
         valid_todo_files = builtin_todo_files
     }
-
+    let joined = undefined
+    let result = undefined
     valid_todo_files.forEach(todo_file => {
-        if (fs.existsSync(path.join(folder.uri.fsPath, todo_file))){
-            console.log(path.join(folder.uri.fsPath, todo_file));
-            return path.join(folder.uri.fsPath, todo_file);
+        joined = path.join(folder_uri.fsPath, todo_file)
+        if (fs.existsSync(joined) && !result){
+            // console.log(joined);
+            result = joined
         }
     });
+    return result
+}
+function get_ws_todo() {
+    let todo_list = []
+    let workspaceFolders = vscode.workspace.workspaceFolders;
+    workspaceFolders.forEach(folder => {
+        todo_list.push(get_dir_todo(folder.uri))
+    });
+    return todo_list
 }
 
-function get_requested_tags(){
+export function get_requested_tags(){
     let editor = vscode.window.activeTextEditor;
     let lines = editor.document.getText().split("\n")
 
@@ -61,7 +60,7 @@ function get_requested_tags(){
     console.log(found_lines);
 }
 
-function extract_tasks_category(){
+export function extract_tasks_category(){
     let editor = vscode.window.activeTextEditor;
     let lines = editor.document.getText().split("\n");
 

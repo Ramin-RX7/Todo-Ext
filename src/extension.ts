@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import assert = require('assert');
 
 import {getConfigs} from './configs';
+import FUNCTIONS = require("./functions")
 const TAGS = require("./tags")
 const TASKS = require("./tasks")
 
@@ -27,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
     TEST()
     const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
     vscode.window.createTreeView('todo-ext-view-wsDirs', {
-            treeDataProvider: new NodeDependenciesProvider(wsDirs)
+        treeDataProvider: new NodeDependenciesProvider(wsDirs)
     });
 
 
