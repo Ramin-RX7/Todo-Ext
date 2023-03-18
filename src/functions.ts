@@ -4,14 +4,12 @@ import * as fs from "fs"
 
 
 import BUILTINS = require("./builtins")
-import { DEFINED_TAGS } from './tags';
 var config = getConfigs()
 
 
 export function getConfigs(){
     let USER_CONFIG = vscode.workspace.getConfiguration("vscode-todo-ext");
     return mergeDeep(BUILTINS.DEFAULT_CONFIGS, USER_CONFIG)
-
 }
 
 
@@ -73,9 +71,9 @@ export function extract_tasks_category(){
     let lines = editor.document.getText().split("\n");
 
     let TAGS_DICT = {};
-    DEFINED_TAGS.forEach(tag => {
-        TAGS_DICT[tag] = []
-    });
+    // DEFINED_TAGS.forEach(tag => {
+        // TAGS_DICT[tag] = []
+    // });
 
     let module_regex = /\[(.+)\](\s*)?/g;
     let modules_tasks = {}  // MODULE1 : [TASK1,TASK2]

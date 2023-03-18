@@ -15,7 +15,7 @@ const BUILTIN_TAGS_LIST = Object.keys(BUILTINS.TAGS_MAP)
 const USER_TAGS_MAP: {[key:string]:{[key:string]:string}} = {...config.tags}
 const USER_TAGS_LIST = Object.keys(USER_TAGS_MAP)
 
-export const DEFINED_TAGS: string[] = [...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST];
+export const DEFINED_TAGS: string[] = [...new Set([...BUILTIN_TAGS_LIST, ...USER_TAGS_LIST])];
 
 
 //> getting decoration config for each implemented tag

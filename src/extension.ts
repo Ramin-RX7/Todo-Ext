@@ -23,18 +23,22 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
+
     TEST()
     const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
     const Provider = new NodeDependenciesProvider(wsDirs)
+
+
+
+
+
+    // TreeView
     vscode.window.createTreeView('todo-ext-view-wsDirs', {
         treeDataProvider: Provider
     });
     vscode.commands.registerCommand('Todo.refreshTreeView', () =>
         Provider.refresh()
     );
-
-
-
 
     context.subscriptions.push(TAGS.tagCompletion)
 	context.subscriptions.push(TASKS.toTask, TASKS.cancelTask, TASKS.completeTask);
@@ -44,7 +48,6 @@ export function activate(context: vscode.ExtensionContext) {
     if (activeEditor) {
         TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS);
     }
-
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = vscode.window.activeTextEditor;

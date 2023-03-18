@@ -77,6 +77,14 @@
       {
         "command": "Todo.switchTask",
         "title": "Switch Task Status"
+      },
+      {
+        "command": "Todo.refreshTreeView",
+        "title": "Refresh",
+        "icon": {
+            "dark": "resources/dark/refresh.svg",
+            "light":"resources/light/refresh.svg"
+        }
       }
     ],
 
@@ -116,6 +124,7 @@
             }
 			  }
 	  },
+
     "viewsContainers": {
       "activitybar": [
         {
@@ -132,9 +141,33 @@
           "name": "Workspace Dirs"
         },
         {
-
           "id": "todo-ext-view-customDirs",
-          "name": "Custom Dirs"
+          "name": "Custom Dirs",
+          "visibility": "hidden"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "Todo.refreshTreeView",
+          "when": "view == todo-ext-view-wsDirs",
+          "group": "navigation"
+        },
+        {
+          "command": "workbench.action.addRootFolder",
+          "when": "view == todo-ext-view-wsDirs"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "VSCODE-TODO.TEST-COMMAND",
+          "when": "view==todo-ext-view-wsDirs && viewItem==WorkspaceDir",
+          "group": "inline"
+        },
+        {
+          "command": "VSCODE-TODO.TEST-COMMAND",
+          "when": "view == todo-ext-view-wsDirs"
         }
       ]
     }
