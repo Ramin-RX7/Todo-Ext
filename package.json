@@ -2,9 +2,9 @@
   "name": "rx-todo",
   "displayName": "VSCode Todo",
   "description": "VS-Code extension for better todo lists in separate files",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "RaminRX7",
-  "icon": "icon.png",
+  "icon": "resources/icon.png",
 
   "repository": {
     "type": "git",
