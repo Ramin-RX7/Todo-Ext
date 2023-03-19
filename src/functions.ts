@@ -4,14 +4,9 @@ import * as fs from "fs"
 
 
 import BUILTINS = require("./builtins")
+import TAGS = require("./tags")
 
-var config = getConfigs()
-
-
-export function getConfigs(){
-    let USER_CONFIG = vscode.workspace.getConfiguration("vscode-todo-ext");
-    return mergeDeep(BUILTINS.DEFAULT_CONFIGS, USER_CONFIG)
-}
+var config = BUILTINS.config
 
 
 export function get_dir_todo(folder_uri){
@@ -76,9 +71,9 @@ export function extract_tasks_category(uriFspath){
         return
     }
     let TAGS_DICT = {};  // TAG1 : [TASK1,TASK2]
-    // DEFINED_TAGS.forEach(tag => {
-        // TAGS_DICT[tag] = []
-        // });
+    TAGS.DEFINED_TAGS.forEach(tag => {
+        TAGS_DICT[tag] = []
+        });
     let modules_tasks = {}  // MODULE1 : [TASK1,TASK2]
     let tasks_status = {}   // `taskStatus1  (symbol)`: [TASK1,TASK2]
     Object.keys(config.tasksSymbols).forEach(status_name => {
@@ -131,31 +126,7 @@ export function extract_tasks_category(uriFspath){
     }
     // console.log(modules_tasks);
     // console.log(TAGS_DICT);
-    console.log(tasks_status);
+    // console.log(tasks_status);
 
     return [modules_tasks, TAGS_DICT, tasks_status]
-}
-
-
-function mergeDeep(target, source) {
-    const isObject = (obj) => obj && typeof obj === 'object';
-
-    if (!isObject(target) || !isObject(source)) {
-      return source;
-    }
-
-    Object.keys(source).forEach(key => {
-      const targetValue = target[key];
-      const sourceValue = source[key];
-
-      if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-        target[key] = targetValue.concat(sourceValue);
-      } else if (isObject(targetValue) && isObject(sourceValue)) {
-        target[key] = mergeDeep(Object.assign({}, targetValue), sourceValue);
-      } else {
-        target[key] = sourceValue;
-      }
-    });
-
-    return target;
 }

@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
 import assert = require('assert');
 
-import FUNCTIONS = require("./functions")
+import BUILTINS = require("./builtins")
 const TAGS = require("./tags")
 const TASKS = require("./tasks")
 import {NodeDependenciesProvider} from './provider';
 
-var config = FUNCTIONS.getConfigs()
+var config = BUILTINS.config
 
 
 

@@ -1,10 +1,11 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
+import BUILTINS = require("./builtins")
 import FUNCTIONS = require("./functions")
 import TAGS = require("./tags")
 
-var config = FUNCTIONS.getConfigs()
+var config = BUILTINS.config
 
 
 

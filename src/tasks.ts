@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 
-import FUNCTIONS = require("./functions")
+import BUILTINS = require("./builtins")
 
-var config = FUNCTIONS.getConfigs()
+var config = BUILTINS.config
 
 
 

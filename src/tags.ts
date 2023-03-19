@@ -2,9 +2,8 @@ import * as vscode from 'vscode';
 import assert = require('assert');
 
 import BUILTINS = require("./builtins")
-import FUNCTIONS = require("./functions")
 
-var config = FUNCTIONS.getConfigs()
+var config = BUILTINS.config
 
 
 
