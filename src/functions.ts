@@ -4,6 +4,7 @@ import * as fs from "fs"
 
 
 import BUILTINS = require("./builtins")
+
 var config = getConfigs()
 
 
@@ -136,7 +137,7 @@ export function extract_tasks_category(uriFspath){
 }
 
 
-export function mergeDeep(target, source) {
+function mergeDeep(target, source) {
     const isObject = (obj) => obj && typeof obj === 'object';
 
     if (!isObject(target) || !isObject(source)) {

@@ -82,8 +82,8 @@
         "command": "Todo.refreshTreeView",
         "title": "Refresh",
         "icon": {
-            "dark": "resources/dark/refresh.svg",
-            "light":"resources/light/refresh.svg"
+            "dark": "resources/dark/refresh.png",
+            "light":"resources/light/refresh.png"
         }
       }
     ],
@@ -130,7 +130,7 @@
         {
           "id": "vscode-todo-viewcontainer",
           "title": "Todo",
-          "icon": "./others/icon.svg"
+          "icon": "resources/dark/icon.png"
         }
       ]
     },

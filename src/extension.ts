@@ -70,36 +70,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-function TEST(){
+async function TEST(){
 
 }
+
 
 vscode.commands.registerCommand('VSCODE-TODO.TEST-COMMAND', async () => {
     let editor = vscode.window.activeTextEditor;
     let lines = editor.document.getText().split("\n");
 
-    /*
-    let checkbox_items = []
-    Object.keys(config.tasksSymbols).forEach(element => {
-        checkbox_items.push(`${element}  (${config.tasksSymbols[element]})`)
-    });
-    const list = await vscode.window.showQuickPick(
-        checkbox_items,
-        {   ignoreFocusOut: true,
-            canPickMany: true,
-            title:"Tags to be included",
-            "placeHolder": "Select or filter task status"
-        }
-    )
-    console.log(list);
-    */
-
-    // vscode.window.showInformationMessage('Info Notification As Modal', { modal: true, })
-    // const selection = await vscode.window.showWarningMessage('Warning Notification With Actions', 'Action 1', 'Action 2', 'Action 3');
-
-    // let activeEditor = vscode.window.activeTextEditor;
-    // var file = activeEditor.document;
-    // var folder = vscode.workspace.getWorkspaceFolder(file.uri)
-    // let f = path.join(folder.uri.fsPath, "RX_CSG")
-    // vscode.window.showTextDocument(vscode.Uri.file(f)) //vscode.workspace.openTextDocument()
 });

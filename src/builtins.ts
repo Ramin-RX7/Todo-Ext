@@ -13,7 +13,7 @@ export const TASKS_SYMBOLS = {
     "waiting"  :  "☐",
     "done"     :  "✔",
     "cancelled":  "✘",   // 🗙
-    "uncertain":  "? "
+    "uncertain":  "?"
     // "postponed":     "➔",   // ➜ ➤  |  ➡️
     // "assigned" :     "⚑",   //   |  🚩
     // "approveNeeded": "?"    // 📊 ❓ ❔
