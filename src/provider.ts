@@ -11,9 +11,7 @@ var config = FUNCTIONS.getConfigs()
 export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
     static childrenList = ["WorkspaceDir", "Category", "Task"]
 
-    constructor(
-        private  workspaceRoots: vscode.WorkspaceFolder[]) {
-    }
+    constructor(private  workspaceRoots: vscode.WorkspaceFolder[]) {}
 
     private _onDidChangeTreeData
         : vscode.EventEmitter<TreeItem | undefined | null | void>
@@ -63,23 +61,36 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
         switch (element.type) { // when opening grand-children elements
 
             case "WorkspaceDir": {
+                let todo_file = FUNCTIONS.get_dir_todo(element.uri)
+                let [modules_tasks, TAGS_DICT, tasks_status] = FUNCTIONS.extract_tasks_category(todo_file)
+
                 labels = []
+                let collapsibleState
                 TAGS.DEFINED_TAGS.forEach(tag => {
-                    labels.push([tag,"Tag"])
+                    collapsibleState =
+                        TAGS_DICT[tag].length ?  vscode.TreeItemCollapsibleState.Collapsed
+                                       :  vscode.TreeItemCollapsibleState.None
+                    labels.push([tag,"Tag",collapsibleState])
                 })
                 Object.keys(config.tasksSymbols).forEach(state_name => {
-                    labels.push([`${state_name}  (${config.tasksSymbols[state_name]})`,"State"])
+                    let label = `${state_name}  (${config.tasksSymbols[state_name]})`
+                    collapsibleState =
+                    tasks_status[label].length ?  vscode.TreeItemCollapsibleState.Collapsed
+                                               :  vscode.TreeItemCollapsibleState.None
+                    labels.push([label,"State",collapsibleState])
                 })
-                let todo_file = FUNCTIONS.get_dir_todo(element.uri)
-                let modules_tasks = FUNCTIONS.extract_tasks_category(todo_file)[0]
                 Object.keys(modules_tasks).forEach(module => {
-                    labels.push([module,"Module"])
+                    collapsibleState =
+                    modules_tasks[module].length ?  vscode.TreeItemCollapsibleState.Collapsed
+                                                 :  vscode.TreeItemCollapsibleState.None
+                    labels.push([module,"Module",collapsibleState])
                 });
                 let dependencies = labels.map(label => new TreeItem(
                     label[0],
                     label[1],
                     label,
-                    vscode.TreeItemCollapsibleState.Collapsed,
+                    label[2],
+                    // vscode.TreeItemCollapsibleState.Collapsed,
                     "Category",
                     // element.uri
                     vscode.Uri.file(todo_file)
@@ -130,6 +141,7 @@ class TreeItem extends vscode.TreeItem {
         super(label, collapsibleState);
         this.contextValue = type
     }
+
     // iconPath = {
     //     light: path.join(__filename, '..', '..', 'resources', 'light', 'dependency.svg'),
     //     dark: path.join(__filename, '..', '..', 'resources', 'dark', 'dependency.svg')
