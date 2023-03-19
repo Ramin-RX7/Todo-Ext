@@ -53,7 +53,7 @@ export function get_requested_tags(){
     lines.forEach(line => {
         flag = []
         requested_tags.forEach(tag => {
-            if (line.includes(tag)){
+            if (line.includes("@"+tag)){
                 flag.push(true)
             }
 
@@ -66,17 +66,25 @@ export function get_requested_tags(){
 }
 
 
-export function extract_tasks_category(){
-    let editor = vscode.window.activeTextEditor;
-    let lines = editor.document.getText().split("\n");
-
-    let TAGS_DICT = {};
+export function extract_tasks_category(uriFspath){
+    let lines
+    try {
+        lines = fs.readFileSync(uriFspath, 'utf8').split("\n");
+    } catch (err) {
+        console.error(err);
+        return
+    }
+    let TAGS_DICT = {};  // TAG1 : [TASK1,TASK2]
     // DEFINED_TAGS.forEach(tag => {
         // TAGS_DICT[tag] = []
-    // });
-
-    let module_regex = /\[(.+)\](\s*)?/g;
+        // });
     let modules_tasks = {}  // MODULE1 : [TASK1,TASK2]
+    let tasks_status = {}   // `taskStatus1  (symbol)`: [TASK1,TASK2]
+    Object.keys(config.tasksSymbols).forEach(status_name => {
+        tasks_status[`${status_name}  (${config.tasksSymbols[status_name]})`] = []
+    });
+
+    let module_regex = /^\[(.+)\](\s*)?$/g;
     let current_module = undefined
     for (var [index, line] of lines.entries()) {
         // console.log(index);
@@ -84,11 +92,14 @@ export function extract_tasks_category(){
             line = line.trim().slice(1,line.length-2)
             modules_tasks[line] = []
             current_module = line;
-
-        } else if (line.trim()) {
+        }
+        else if (line.trim()) {
             line = line.trim()
             if (Object.values(config.tasksSymbols).includes(line[0])){
-                line = line.slice(1)
+                let task_name = Object.keys(config.tasksSymbols).find(key => config.tasksSymbols[key] === line[0])
+                let key = `${task_name}  (${line[0]})`
+                line = line.slice(1).trim()
+                tasks_status[key].push(line)
             }
             let tag_regex = /(?<withspace>\s*(?<TAG>@(?<TAGNAME>[^(\r| |\n|`|'|"|@)]+))\s*)/;
             let match;
@@ -119,6 +130,9 @@ export function extract_tasks_category(){
     }
     // console.log(modules_tasks);
     // console.log(TAGS_DICT);
+    console.log(tasks_status);
+
+    return [modules_tasks, TAGS_DICT, tasks_status]
 }
 
 
