@@ -63,18 +63,21 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
         switch (element.type) { // when opening grand-children elements
 
             case "WorkspaceDir": {
-                labels = [...TAGS.DEFINED_TAGS]
+                labels = []
+                TAGS.DEFINED_TAGS.forEach(tag => {
+                    labels.push([tag,"Tag"])
+                })
                 Object.keys(config.tasksSymbols).forEach(state_name => {
-                    labels.push(`${state_name}  (${config.tasksSymbols[state_name]})`)
+                    labels.push([`${state_name}  (${config.tasksSymbols[state_name]})`,"State"])
                 })
                 let todo_file = FUNCTIONS.get_dir_todo(element.uri)
                 let modules_tasks = FUNCTIONS.extract_tasks_category(todo_file)[0]
                 Object.keys(modules_tasks).forEach(module => {
-                    labels.push(module)
+                    labels.push([module,"Module"])
                 });
                 let dependencies = labels.map(label => new TreeItem(
-                    label,
-                    "",
+                    label[0],
+                    label[1],
                     label,
                     vscode.TreeItemCollapsibleState.Collapsed,
                     "Category",
@@ -84,53 +87,30 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
                 return Promise.resolve(dependencies)
             }
 
-            case "Category":
+            case "Category": {
                 labels = []
-                // console.log(element.uri.fsPath);
                 let [modules_tasks, TAGS_DICT, tasks_status] = FUNCTIONS.extract_tasks_category(element.uri.fsPath)
                 // console.log(modules_tasks);
                 // console.log(TAGS_DICT);
-                // return labels;
-                console.log(element.label);
+                // console.log(element.label);
+                let list =
+                  Object.keys(TAGS_DICT).includes(element.label)     ?  TAGS_DICT
+                : Object.keys(modules_tasks).includes(element.label) ?  modules_tasks
+                :                                                       tasks_status;
 
-                if (Object.keys(TAGS_DICT).includes(element.label)) {
-                    TAGS_DICT[element.label].forEach(task => {
-                        labels.push(new TreeItem(
-                            task,
-                            "",
-                            task,
-                            vscode.TreeItemCollapsibleState.None,
-                            "Task",
-                            element.uri
-                        ))
-                    });
-                } else if (Object.keys(modules_tasks).includes(element.label)) {
-                    let taskstatus;
-                    modules_tasks[element.label].forEach(task => {
-                        labels.push(new TreeItem(
-                            task,
-                            "",
-                            task,
-                            vscode.TreeItemCollapsibleState.None,
-                            "Task",
-                            element.uri
-                        ))
-                    });
-                } else {
-                    tasks_status[element.label].forEach(task => {
-                        labels.push(new TreeItem(
-                            task,
-                            "",
-                            task,
-                            vscode.TreeItemCollapsibleState.None,
-                            "Task",
-                            element.uri
-                        ))
-                    })
-
-
-                }
+                list[element.label].forEach(task => {
+                    labels.push(new TreeItem(
+                        task,
+                        "",
+                        task,
+                        vscode.TreeItemCollapsibleState.None,
+                        "Task",
+                        element.uri
+                    ))
+                })
                 return Promise.resolve(labels)
+            }
+
             default:
                 break;
         }
@@ -141,9 +121,9 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
 class TreeItem extends vscode.TreeItem {
     constructor(
         public readonly label: string,
-        private version: string,
+        public description: string,
         public tooltip:string,
-        public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+        public collapsibleState: vscode.TreeItemCollapsibleState,
         public type,
         public uri,
     ) {

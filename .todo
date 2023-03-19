@@ -4,6 +4,7 @@
         (if not, then remove the `\s*` in grammar and
            add the one with whitespace to invalid ones)
         => For now modules can only be at the start of line
+    ☐ `README.md`
 
 
 [TAGS]
