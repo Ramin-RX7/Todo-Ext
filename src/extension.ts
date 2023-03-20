@@ -26,14 +26,14 @@ export function activate(context: vscode.ExtensionContext) {
 
 
     TEST()
-    const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
-    const Provider = new TreeView(wsDirs)
 
 
 
 
 
     // TreeView
+    const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
+    const Provider = new TreeView(wsDirs)
     vscode.window.createTreeView('todo-ext-view-wsDirs', {
         treeDataProvider: Provider
     });
@@ -68,9 +68,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.workspace.createFileSystemWatcher(
         FUNCTIONS.get_todos_glob()
-    ).onDidChange(
-        _ => {Provider.refresh()}
-    )
+    ).onDidChange( _ => {
+        Provider.refresh();
+        // console.log("Change");
+    })
     // filechangelistener.onDidChange(_ => {Provider.refresh()})
 }
 

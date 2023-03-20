@@ -5,6 +5,13 @@
            add the one with whitespace to invalid ones)
         => For now modules can only be at the start of line
     ☐ `README.md`
+    ✔ @med Tag completion does not start after `@`
+    ✔ @med Tag completion adds one more `@`
+
+
+[CONFIGS]
+    ☐ Add the given `todoFiles` to the beginning of the list
+        (So firstly user-defined files will be checked)
 
 
 [TAGS]
@@ -31,10 +38,6 @@
         "postponed":      ➜ ➤  |  ➡️
         "assigned" :        |  🚩
         "approveNeeded":  📊 ❓ ❔
-
-
-[COMPLETIONS]
-    ✔ tags list after writing `@`
 
 
 [TREE-VIEW]

@@ -27,4 +27,6 @@
         ["'", "'"],
         ["`", "`"]
     ],
+
+    "wordPattern": "[^ ]+",  // For now this will let `@` be used for completing tags with snippet
 }

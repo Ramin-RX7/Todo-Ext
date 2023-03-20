@@ -116,11 +116,19 @@ export var tagCompletion = vscode.languages.registerCompletionItemProvider('todo
         snippetCompletion.command = { command:'Todo.toTask', title:"" };
         snippets.push(snippetCompletion);
 
+        let snippet:vscode.CompletionItem
+        let snippetAt:vscode.CompletionItem;
         (DEFINED_TAGS).forEach(tag => {
-            let snippet = new vscode.CompletionItem(tag)
+            snippet = new vscode.CompletionItem(tag)
             snippet.insertText = '@'+tag+" "
             snippet.kind = vscode.CompletionItemKind.EnumMember
-            snippets.push(snippet);
+
+            snippetAt = new vscode.CompletionItem("@"+tag)
+            snippetAt.insertText = '@'+tag+" "
+            new vscode.SnippetString()
+            snippetAt.kind = vscode.CompletionItemKind.EnumMember
+
+            snippets.push(snippet,snippetAt);
         });
 
         return snippets;
