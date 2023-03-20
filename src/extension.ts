@@ -2,9 +2,10 @@ import * as vscode from 'vscode';
 import assert = require('assert');
 
 import BUILTINS = require("./builtins")
-const TAGS = require("./tags")
-const TASKS = require("./tasks")
-import {NodeDependenciesProvider} from './provider';
+import TAGS = require("./tags")
+import TASKS = require("./tasks")
+import FUNCTIONS = require("./functions")
+import {TreeView} from './provider';
 
 var config = BUILTINS.config
 
@@ -26,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     TEST()
     const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
-    const Provider = new NodeDependenciesProvider(wsDirs)
+    const Provider = new TreeView(wsDirs)
 
 
 
@@ -39,6 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('Todo.refreshTreeView', () =>
         Provider.refresh()
     );
+
 
     context.subscriptions.push(TAGS.tagCompletion)
 	context.subscriptions.push(TASKS.toTask, TASKS.cancelTask, TASKS.completeTask);
@@ -53,7 +55,6 @@ export function activate(context: vscode.ExtensionContext) {
         activeEditor = vscode.window.activeTextEditor;
         if (activeEditor) {
             TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS);
-            // get_ws_todo();
         }
     }, null, context.subscriptions);
 
@@ -64,6 +65,13 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }, null, context.subscriptions);
 
+
+    vscode.workspace.createFileSystemWatcher(
+        FUNCTIONS.get_todos_glob()
+    ).onDidChange(
+        _ => {Provider.refresh()}
+    )
+    // filechangelistener.onDidChange(_ => {Provider.refresh()})
 }
 
 

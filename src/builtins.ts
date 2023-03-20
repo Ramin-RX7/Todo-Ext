@@ -35,7 +35,8 @@ export const TODO_FILES:string[] = [".todo","todo.todo","main.todo","tasks.todo"
 
 export var DEFAULT_CONFIGS = {
     tags : TAGS_MAP,
-    tasksSymbols : TASKS_SYMBOLS
+    tasksSymbols : TASKS_SYMBOLS,
+    todoFiles : TODO_FILES
 }
 
 

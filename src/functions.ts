@@ -130,3 +130,18 @@ export function extract_tasks_category(uriFspath){
 
     return [modules_tasks, TAGS_DICT, tasks_status]
 }
+
+
+export function get_todos_glob(){
+    let pattern = "{"
+    vscode.workspace.workspaceFolders.forEach(folder => {
+        pattern += `${folder.uri.fsPath},`
+    });
+    pattern = pattern.slice(0,pattern.length-1)+"}/{"
+    BUILTINS.TODO_FILES.forEach(file => {
+        pattern += `${file},`
+    });
+    pattern = pattern.slice(0,pattern.length-1)+"}"
+    // console.log(pattern);
+    return pattern
+}

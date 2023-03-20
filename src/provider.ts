@@ -9,7 +9,7 @@ var config = BUILTINS.config
 
 
 
-export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeItem> {
+export class TreeView implements vscode.TreeDataProvider<TreeItem> {
     static childrenList = ["WorkspaceDir", "Category", "Task"]
 
     constructor(private  workspaceRoots: vscode.WorkspaceFolder[]) {}
@@ -22,7 +22,7 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
         = this._onDidChangeTreeData.event;
 
     refresh(): void {
-      this._onDidChangeTreeData.fire();
+        this._onDidChangeTreeData.fire();
     }
 
     getTreeItem(element: TreeItem): vscode.TreeItem {
@@ -132,7 +132,7 @@ export class NodeDependenciesProvider implements vscode.TreeDataProvider<TreeIte
 
 class TreeItem extends vscode.TreeItem {
     constructor(
-        public readonly label: string,
+        public readonly label,
         public description: string,
         public tooltip:string,
         public collapsibleState: vscode.TreeItemCollapsibleState,
