@@ -1,10 +1,12 @@
 [MAIN]
     ☐ @low @hard formatter
-    ?✔ Nested modules?
+        if number of modules > 5:  set extralines->3  else:2
+    ✘ Nested modules?
         (if not, then remove the `\s*` in grammar and
            add the one with whitespace to invalid ones)
         => For now modules can only be at the start of line
-    ☐ `README.md`
+    ☐ @med `README.md`
+    ☐ @med Documentation for all of the codes
     ✔ @med Tag completion does not start after `@`
     ✔ @med Tag completion adds one more `@`
 
@@ -15,39 +17,40 @@
 
 
 [TAGS]
-    ☐ New tags: [`bug`]
+    ☐ @easy New tags: [`bug`,`fr`]
     ☐ @high @bug they work in strings
-    ☐ @med @feature key-bindings
+    ☐ @easy Difficulty tags? (easy/norm/hard)
     ? @med @bug should they work alone?
-    ?  Difficulty tags? (easy/normal/hard)
     ?  There should not be tags for `cancelled`,`completed`,etc. =>
-         - Instead we can use task symbols
+         -✔ Instead we can use task symbols
          - but tags can be useful when detecting tasks after that
              task symbols have changed
-    ? tooltip showing the number of tasks with the same tag
+    ?  tooltip showing the number of tasks with the same tag
+    ✔ @med @feature key-bindings
 
 
 [TASKS-STATUS]
-    ☐ change opacity of `cancelled` and `done/completed` tasks
-    ?  When a text is selected (at the begining of a line) and then, `make task`
+    ?✘ When a text is selected (at the begining of a line) and then, `make task`
         command is called, it should remove the selected part
-    ☐ @bug when `make task` is called in a line that is not empty,
+    ☐ @med @bug when `convert task` is called in a line that is not empty,
          it moves the curser to the end of line after calling the command
+    ✔ change opacity of `cancelled` and `done/completed` tasks
     Symbols:
-        "cancelled":      🗙
+        "cancelled":      🗙  |
         "postponed":      ➜ ➤  |  ➡️
         "assigned" :        |  🚩
-        "approveNeeded":  📊 ❓ ❔
+        "approveNeeded":    |  📊 ❓ ❔
 
 
 [TREE-VIEW]
     Tags:
-        ☐ shows other tags of the task in tooltip
+        ☐ @fr shows other tags of the task in tooltip
     Modules:
-        ☐ have separate child for `sections`
-        ☐ Show tags of task in the tooltip
-    ☐ Add task Button
-    ✔ Go to line when clicking on a task
-    ☐ change task status option
+        ☐ @hard have separate child for `sections`
+        ☐ @hard Show tags of task in the tooltip
+    Categories:
+        ☐ @low @hard   Tooltip should be number of children
+    ☐ @med Add task Button
     ☐ @high @bug None of the menu actions work
         (This gets worse because we can not get the task that button is called from)
+    ✔ Go to line when clicking on a task
