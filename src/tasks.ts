@@ -126,5 +126,62 @@ function* switchTaskF() {
     }
 }
 
+export function updateStatusDecoration(activeEditor:vscode.TextEditor|undefined,){
+    let text = activeEditor.document.getText();
+    let match;
+
+    const completedDecoration = vscode.window.createTextEditorDecorationType({
+        opacity: "0.3", color:"#55ee55"
+	});
+    const cpltRgx = RegExp(`${config.tasksSymbols["done"]}.+`,"g")
+	const completed = [];
+	while ((match = cpltRgx.exec(text))) {
+		const startPos = activeEditor.document.positionAt(match.index);
+		const endPos = activeEditor.document.positionAt(match.index + match[0].length);
+		const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + match[0] + '**' };
+		completed.push(decoration);
+	}
+	activeEditor.setDecorations(completedDecoration, completed);
+
+	const cancelledDecoration = vscode.window.createTextEditorDecorationType({
+        opacity: "0.3", textDecoration:"line-through", color:"#cc5555"
+	});
+    const cnclRgx = RegExp(`${config.tasksSymbols["cancelled"]}.+`,"g")
+	const cancelled = [];
+	while ((match = cnclRgx.exec(text))) {
+		const startPos = activeEditor.document.positionAt(match.index);
+		const endPos = activeEditor.document.positionAt(match.index + match[0].length);
+		const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + match[0] + '**' };
+		cancelled.push(decoration);
+	}
+	activeEditor.setDecorations(cancelledDecoration, cancelled);
+
+	// while ((match = cnclRgx.exec(text)) || (match = cpltRgx.exec(text))) {
+		// const startPos = activeEditor.document.positionAt(match.index);
+		// const endPos = activeEditor.document.positionAt(match.index + match[0].length);
+		// const decoration = { range: new vscode.Range(startPos, endPos), hoverMessage: 'Number **' + match[0] + '**' };
+		// if (match[1]==config.tasksSymbols["cancelled"]){
+            // cancelled.push(decoration)
+        // } else {
+            // completed.push(decoration)
+        // }
+	// }
+	// activeEditor.setDecorations(completedDecoration, completed);
+	// activeEditor.setDecorations(cancelledDecoration, cancelled);
+}
+export function triggerUpdateTasksStatusDecoration(activeEditor:vscode.TextEditor|undefined,throttle = false) {
+    let timeout: NodeJS.Timer|undefined = undefined;
+    if (timeout) {
+        clearTimeout(timeout);
+        timeout = undefined;
+    }
+    if (throttle) {
+        timeout = setTimeout(updateStatusDecoration, 500, activeEditor=activeEditor);
+    } else {
+        updateStatusDecoration(activeEditor);
+    }
+}
+
+
 
 export {toTask, cancelTask, completeTask, switchTask}

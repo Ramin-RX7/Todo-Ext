@@ -31,11 +31,11 @@ export class TreeView implements vscode.TreeDataProvider<TreeItem> {
 
     getChildren(element?: TreeItem): Thenable<TreeItem[]> {
         if (!this.workspaceRoots) {
-            vscode.window.showInformationMessage('No todo file in empty workspace');
+            // vscode.window.showInformationMessage('No todo file in empty workspace');
             return Promise.resolve([]);
         }
 
-        if (!element){  // when opening grand-children elements
+        if (!element){  // when opening first-children elements
             let list = []
             this.workspaceRoots.forEach(dir => {
                 let state,tooltip,todo_file
@@ -70,30 +70,29 @@ export class TreeView implements vscode.TreeDataProvider<TreeItem> {
                 TAGS.DEFINED_TAGS.forEach(tag => {
                     collapsibleState =
                         TAGS_DICT[tag].length ?  vscode.TreeItemCollapsibleState.Collapsed
-                                       :  vscode.TreeItemCollapsibleState.None
+                                              :  vscode.TreeItemCollapsibleState.None
                     labels.push([tag,"Tag",collapsibleState])
                 })
                 Object.keys(config.tasksSymbols).forEach(state_name => {
                     let label = `${state_name}  (${config.tasksSymbols[state_name]})`
                     collapsibleState =
-                    tasks_status[label].length ?  vscode.TreeItemCollapsibleState.Collapsed
-                                               :  vscode.TreeItemCollapsibleState.None
+                        tasks_status[label].length ?  vscode.TreeItemCollapsibleState.Collapsed
+                                                   :  vscode.TreeItemCollapsibleState.None
                     labels.push([label,"State",collapsibleState])
                 })
                 Object.keys(modules_tasks).forEach(module => {
                     collapsibleState =
-                    modules_tasks[module].length ?  vscode.TreeItemCollapsibleState.Collapsed
-                                                 :  vscode.TreeItemCollapsibleState.None
+                        modules_tasks[module].length ?  vscode.TreeItemCollapsibleState.Collapsed
+                                                     :  vscode.TreeItemCollapsibleState.None
                     labels.push([module,"Module",collapsibleState])
                 });
+
                 let dependencies = labels.map(label => new TreeItem(
                     label[0],
                     label[1],
                     label,
                     label[2],
-                    // vscode.TreeItemCollapsibleState.Collapsed,
                     "Category",
-                    // element.uri
                     vscode.Uri.file(todo_file)
                 ))
                 return Promise.resolve(dependencies)
@@ -102,15 +101,11 @@ export class TreeView implements vscode.TreeDataProvider<TreeItem> {
             case "Category": {
                 labels = []
                 let [modules_tasks, TAGS_DICT, tasks_status] = FUNCTIONS.extract_tasks_category(element.uri.fsPath)
-                // console.log(modules_tasks);
-                // console.log(TAGS_DICT);
-                // console.log(element.label);
+                // console.log(modules_tasks);console.log(TAGS_DICT);console.log(element.label);
                 let list =
                   Object.keys(TAGS_DICT).includes(element.label)     ?  TAGS_DICT
                 : Object.keys(modules_tasks).includes(element.label) ?  modules_tasks
                 :                                                       tasks_status;
-
-                console.log(tasks_status[`done  (${config.tasksSymbols["done"]})`].map(label=>label[1]));
 
                 list[element.label].forEach(task => {
                     let task_state = "Task";

@@ -18,7 +18,6 @@ export function activate(context: vscode.ExtensionContext) {
     var activeEditor = vscode.window.activeTextEditor;
 
 
-    // var TAGS = TAGS.DEFINED_TAGS
     var DECORATIONS = TAGS.DECORATIONS
 
 
@@ -26,6 +25,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 
     TEST()
+
+
+
+
+
+
+
 
 
 
@@ -48,12 +54,14 @@ export function activate(context: vscode.ExtensionContext) {
 
     if (activeEditor) {
         TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS);
+        TASKS.triggerUpdateTasksStatusDecoration(activeEditor)
     }
 
     vscode.window.onDidChangeActiveTextEditor(editor => {
         activeEditor = vscode.window.activeTextEditor;
         if (activeEditor) {
             TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS);
+            TASKS.triggerUpdateTasksStatusDecoration(activeEditor)
         }
     }, null, context.subscriptions);
 
@@ -61,6 +69,7 @@ export function activate(context: vscode.ExtensionContext) {
         activeEditor = vscode.window.activeTextEditor;
         if (activeEditor && event.document === activeEditor.document) {
             TAGS.triggerUpdateTags(activeEditor, TAGS.DEFINED_TAGS, DECORATIONS, true);
+            TASKS.triggerUpdateTasksStatusDecoration(activeEditor, true)
         }
     }, null, context.subscriptions);
 
@@ -79,16 +88,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 async function TEST(){
-    // fs.readFile('F:/Coding/Github/DramaX/requirements.txt', 'utf-8', function(err, data){
-        // if (err) {throw err};
-        // console.log(data)
-        //   var newValue = data.replace(/^\./gim, 'myString');
-
-        //   fs.writeFile('F:/Coding/Github/DramaX/requirements.txt', newValue, 'utf-8', function (err) {
-            // if (err) throw err;
-            // console.log('filelistAsync complete');
-        //   });
-    // });
 
 }
 

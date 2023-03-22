@@ -50,3 +50,4 @@
     ✔ Go to line when clicking on a task
     ☐ change task status option
     ☐ @high @bug None of the menu actions work
+        (This gets worse because we can not get the task that button is called from)

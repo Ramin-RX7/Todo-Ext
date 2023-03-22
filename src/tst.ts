@@ -33,3 +33,15 @@ console.log(list);
 // var folder = vscode.workspace.getWorkspaceFolder(file.uri)
 // let f = path.join(folder.uri.fsPath, "RX_CSG")
 // vscode.window.showTextDocument(vscode.Uri.file(f)) //vscode.workspace.openTextDocument()
+
+
+
+// fs.readFile('F:/Coding/Github/DramaX/requirements.txt', 'utf-8', function(err, data){
+    // if (err) {throw err};
+    // console.log(data)
+    //   var newValue = data.replace(/^\./gim, 'myString');
+    //   fs.writeFile('F:/Coding/Github/DramaX/requirements.txt', newValue, 'utf-8', function (err) {
+        // if (err) throw err;
+        // console.log('filelistAsync complete');
+    //   });
+// });
