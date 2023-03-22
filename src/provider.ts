@@ -110,14 +110,24 @@ export class TreeView implements vscode.TreeDataProvider<TreeItem> {
                 : Object.keys(modules_tasks).includes(element.label) ?  modules_tasks
                 :                                                       tasks_status;
 
+                console.log(tasks_status[`done  (${config.tasksSymbols["done"]})`].map(label=>label[1]));
+
                 list[element.label].forEach(task => {
+                    let task_state = "Task";
+                    let tooltip = task[0]
+                    if (tasks_status[`done  (${config.tasksSymbols["done"]})`].map(label=>label[1]).includes(task[1])){
+                        task_state = "TaskCompleted"
+                        tooltip += " (Completed)"
+                    }
+
                     labels.push(new TreeItem(
-                        task,
+                        task[0],
                         "",
-                        task,
+                        tooltip,
                         vscode.TreeItemCollapsibleState.None,
-                        "Task",
-                        element.uri
+                        task_state,
+                        element.uri,
+                        task[1]
                     ))
                 })
                 return Promise.resolve(labels)
@@ -138,9 +148,15 @@ class TreeItem extends vscode.TreeItem {
         public collapsibleState: vscode.TreeItemCollapsibleState,
         public type,
         public uri,
+        public line?
     ) {
         super(label, collapsibleState);
         this.contextValue = type
+        if (line){
+            this.command = {title:"title", command:"Todo.moveCursor",
+                            arguments: [uri.fsPath, line],
+            }
+        }
     }
 
     // iconPath = {

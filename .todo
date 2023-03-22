@@ -46,3 +46,7 @@
     Modules:
         ☐ have separate child for `sections`
         ☐ Show tags of task in the tooltip
+    ☐ Add task Button
+    ✔ Go to line when clicking on a task
+    ☐ change task status option
+    ☐ @high @bug None of the menu actions work

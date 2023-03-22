@@ -70,12 +70,12 @@ export function extract_tasks_category(uriFspath){
         console.error(err);
         return
     }
-    let TAGS_DICT = {};  // TAG1 : [TASK1,TASK2]
+    let modules_tasks = {}  // MODULE1 :  [[TASK1,LineNom], [TASK2,LineNom]]
+    let TAGS_DICT = {};     // TAGS    :  ~~
     TAGS.DEFINED_TAGS.forEach(tag => {
         TAGS_DICT[tag] = []
         });
-    let modules_tasks = {}  // MODULE1 : [TASK1,TASK2]
-    let tasks_status = {}   // `taskStatus1  (symbol)`: [TASK1,TASK2]
+    let tasks_status = {}   // STATUS  :  ~~
     Object.keys(config.tasksSymbols).forEach(status_name => {
         tasks_status[`${status_name}  (${config.tasksSymbols[status_name]})`] = []
     });
@@ -95,7 +95,7 @@ export function extract_tasks_category(uriFspath){
                 let task_name = Object.keys(config.tasksSymbols).find(key => config.tasksSymbols[key] === line[0])
                 let key = `${task_name}  (${line[0]})`
                 line = line.slice(1).trim()
-                tasks_status[key].push(line)
+                tasks_status[key].push([line,index])
             }
             let tag_regex = /(?<withspace>\s*(?<TAG>@(?<TAGNAME>[^(\r| |\n|`|'|"|@)]+))\s*)/;
             let match;
@@ -119,9 +119,9 @@ export function extract_tasks_category(uriFspath){
                 line = line.replace(regexed, "")
             });
             line_tagname_list.forEach(tagname => {
-                TAGS_DICT[tagname].push(line.trim())
+                TAGS_DICT[tagname].push([line.trim(),index])
             });
-            modules_tasks[current_module].push(line)
+            modules_tasks[current_module].push([line,index])
         }
     }
     // console.log(modules_tasks);
@@ -145,3 +145,18 @@ export function get_todos_glob(){
     // console.log(pattern);
     return pattern
 }
+
+
+export async function moveCursor(fileFspath, line){
+    await vscode.window.showTextDocument(vscode.Uri.file(fileFspath))
+    fs.readFile(fileFspath, 'utf-8', function(err, data){
+        if (err) {throw err};
+        let lines = data.split("\n").length
+        vscode.commands.executeCommand("cursorMove",{to:"wrappedLineStart"})
+        vscode.commands.executeCommand("cursorMove",{to:"up"  ,  value: lines})
+        vscode.commands.executeCommand("cursorMove",{to:"down",  value: line,})
+        vscode.commands.executeCommand("cursorMove",{to:"wrappedLineEnd", select:true})
+        vscode.commands.executeCommand("revealLine",{lineNumber:line, at:"center"})
+    });
+}
+export const moveCursorCmd = vscode.commands.registerCommand("Todo.moveCursor", moveCursor)

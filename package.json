@@ -149,13 +149,21 @@
       ],
       "view/item/context": [
         {
-          "command": "VSCODE-TODO.TEST-COMMAND",
-          "when": "view==todo-ext-view-wsDirs && viewItem==WorkspaceDir",
+          "command": "Todo.completeTask",
+          "when": "view==todo-ext-view-wsDirs && viewItem==Task",
           "group": "inline"
         },
         {
-          "command": "VSCODE-TODO.TEST-COMMAND",
-          "when": "view == todo-ext-view-wsDirs"
+          "command": "Todo.completeTask",
+          "when": "view == todo-ext-view-wsDirs  && viewItem==Task || viewItem==TaskCompleted"
+        },
+        {
+          "command": "Todo.cancelTask",
+          "when": "view == todo-ext-view-wsDirs  && viewItem==Task || viewItem==TaskCompleted"
+        },
+        {
+          "command": "Todo.toTask",
+          "when": "view == todo-ext-view-wsDirs  && viewItem==Task || viewItem==TaskCompleted"
         }
       ]
     }

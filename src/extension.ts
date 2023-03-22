@@ -29,8 +29,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-
-
     // TreeView
     const wsDirs = [...vscode.workspace.workspaceFolders].map(dir => dir)
     const Provider = new TreeView(wsDirs)
@@ -45,6 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(TAGS.tagCompletion)
 	context.subscriptions.push(TASKS.toTask, TASKS.cancelTask, TASKS.completeTask);
 	context.subscriptions.push(TASKS.switchTask);
+    context.subscriptions.push(FUNCTIONS.moveCursorCmd)
 
 
     if (activeEditor) {
@@ -80,6 +79,16 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 async function TEST(){
+    // fs.readFile('F:/Coding/Github/DramaX/requirements.txt', 'utf-8', function(err, data){
+        // if (err) {throw err};
+        // console.log(data)
+        //   var newValue = data.replace(/^\./gim, 'myString');
+
+        //   fs.writeFile('F:/Coding/Github/DramaX/requirements.txt', newValue, 'utf-8', function (err) {
+            // if (err) throw err;
+            // console.log('filelistAsync complete');
+        //   });
+    // });
 
 }
 
